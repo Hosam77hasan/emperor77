@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emperor Software Development - نحول أفكارك إلى واقع رقمي</title>
+    <meta name="description" content="شركة Emperor متخصصة في تطوير تطبيقات الموبايل، SaaS، CRM، الأتمتة بالذكاء الاصطناعي والشات بوت. شركاؤك في التحول الرقمي.">
+    <meta name="keywords" content="برمجة, موبايل, تطبيقات, SaaS, CRM, AI, أتمتة, شات بوت, Flutter, n8n, Emperor Software">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #050812;
+            --primary-2: #0a0f22;
+            --surface: #0f1428;
+            --surface-2: #161e38;
+            --surface-3: #1e2848;
+            --accent: #00d9ff;
+            --accent-2: #7b5cff;
+            --accent-warm: #ff6b35;
+            --gold: #f5c842;
+            --green: #00e676;
+            --text: #eef0fa;
+            --text-dim: #8892a4;
+            --text-dimmer: #4e5a6e;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(0,217,255,0.25);
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family:'Tajawal',sans-serif;
+            background:var(--primary);
+            color:var(--text);
+            overflow-x:hidden;
+            line-height:1.7;
+        }
+
+        /* BG */
+        .bg-mesh {
+            position:fixed; inset:0; z-index:-3; pointer-events:none;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,217,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(123,92,255,0.1) 0%, transparent 60%),
+                var(--primary);
+        }
+        .grid-overlay {
+            position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:0.025;
+            background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);
+            background-size:60px 60px;
+            mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+        }
+
+        /* HEADER */
+        header {
+            padding:1.2rem 5%;
+            display:flex; justify-content:space-between; align-items:center;
+            background:rgba(10,15,34,0.85);
+            backdrop-filter:blur(24px);
+            border-bottom:1px solid var(--border);
+            position:sticky; top:0; z-index:100;
+            animation:slideDown 0.6s ease-out;
+        }
+        @keyframes slideDown { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
+
+        .logo-wrap { display:flex; align-items:center; gap:0.9rem; }
+        .logo-img { height:52px; width:auto; filter:drop-shadow(0 0 12px rgba(0,217,255,0.5)); }
+        .logo-text { font-family:'Cairo',sans-serif; line-height:1.25; }
+        .logo-text .top { font-size:1.1rem; font-weight:900; letter-spacing:1px; color:#fff; }
+        .logo-text .sub {
+            font-size:0.72rem; letter-spacing:3px; text-transform:uppercase;
+            background:linear-gradient(90deg, var(--accent), var(--accent-2));
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .nav-cta { display:flex; align-items:center; gap:1rem; }
+        .badge-available {
+            display:flex; align-items:center; gap:0.5rem;
+            font-size:0.78rem; color:var(--green); font-weight:600;
+            background:rgba(0,230,118,0.08); border:1px solid rgba(0,230,118,0.2);
+            padding:0.4rem 0.9rem; border-radius:50px;
+        }
+        .badge-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse-green 2s infinite; }
+        @keyframes pulse-green {
+            0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,0.5)}
+            50%{box-shadow:0 0 0 6px rgba(0,230,118,0)}
+        }
+        .btn-header {
+            padding:0.7rem 1.8rem;
+            background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            border:none; border-radius:50px;
+            color:#fff; font-weight:700; font-size:0.95rem;
+            cursor:pointer; transition:all 0.3s;
+            font-family:'Cairo',sans-serif;
+            box-shadow:0 4px 20px rgba(0,217,255,0.3);
+        }
+        .btn-header:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,217,255,0.5); }
+
+        /* HERO */
+        .hero {
+            min-height:92vh; display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            text-align:center; padding:6rem 5% 4rem; position:relative;
+        }
+        .hero-tag {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            font-size:0.82rem; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+            color:var(--accent); background:rgba(0,217,255,0.08); border:1px solid rgba(0,217,255,0.2);
+            padding:0.5rem 1.2rem; border-radius:50px; margin-bottom:2rem;
+            animation:fadeInUp 0.8s ease-out 0.1s both;
+        }
+        .hero h1 {
+            font-family:'Cairo',sans-serif;
+            font-size:clamp(2.4rem,6vw,5rem); font-weight:900; line-height:1.15;
+            margin-bottom:1.8rem; animation:fadeInUp 0.8s ease-out 0.2s both;
+        }
+        .hero h1 .line-2 {
+            display:block;
+            background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 50%,var(--accent-warm) 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            background-size:200% auto; animation:gradientShift 4s ease infinite;
+        }
+        @keyframes gradientShift { 0%,100%{background-position:0% center} 50%{background-position:100% center} }
+        .hero-desc {
+            font-size:clamp(1rem,2vw,1.25rem);
+            color:var(--text-dim); max-width:700px; margin:0 auto 3rem; line-height:2;
+            animation:fadeInUp 0.8s ease-out 0.3s both;
+        }
+        .hero-cta { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; animation:fadeInUp 0.8s ease-out 0.4s both; }
+        .btn-primary {
+            display:inline-flex; align-items:center; gap:0.6rem;
+            padding:1rem 2.5rem;
+            background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            border:none; border-radius:50px; color:#fff; font-weight:700; font-size:1.05rem;
+            cursor:pointer; transition:all 0.3s; font-family:'Cairo',sans-serif;
+            box-shadow:0 8px 30px rgba(0,217,255,0.3); position:relative; overflow:hidden;
+        }
+        .btn-primary:hover { transform:translateY(-3px); box-shadow:0 15px 45px rgba(0,217,255,0.5); }
+        .btn-outline {
+            display:inline-flex; align-items:center; gap:0.6rem;
+            padding:1rem 2.5rem; background:transparent;
+            border:1.5px solid var(--border-accent); border-radius:50px;
+            color:var(--accent); font-weight:700; font-size:1.05rem;
+            cursor:pointer; transition:all 0.3s; font-family:'Cairo',sans-serif;
+        }
+        .btn-outline:hover { background:rgba(0,217,255,0.08); border-color:var(--accent); transform:translateY(-3px); }
+        .hero-scroll {
+            margin-top:4rem; display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+            color:var(--text-dimmer); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase;
+            animation:fadeInUp 0.8s ease-out 0.7s both;
+        }
+        .scroll-line {
+            width:1px; height:50px;
+            background:linear-gradient(to bottom,var(--accent),transparent);
+            animation:scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:0.3;transform:scaleY(0.5)} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+        /* STATS */
+        .stats-bar { padding:3rem 5%; background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2rem; max-width:1100px; margin:0 auto; }
+        .stat-item {
+            text-align:center; padding:1.5rem 1rem; border-radius:16px;
+            background:var(--surface-2); border:1px solid var(--border); transition:all 0.3s;
+        }
+        .stat-item:hover { border-color:var(--border-accent); box-shadow:0 8px 30px rgba(0,217,255,0.1); transform:translateY(-4px); }
+        .stat-num {
+            font-family:'Cairo',sans-serif; font-size:2.6rem; font-weight:900;
+            background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .stat-lbl { color:var(--text-dim); font-size:0.95rem; margin-top:0.3rem; }
+
+        /* SECTIONS */
+        section { padding:6rem 5%; }
+        .section-header { text-align:center; margin-bottom:4rem; }
+        .section-tag {
+            display:inline-block; font-size:0.75rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+            color:var(--accent); background:rgba(0,217,255,0.08); border:1px solid rgba(0,217,255,0.2);
+            padding:0.4rem 1rem; border-radius:50px; margin-bottom:1.2rem;
+        }
+        .section-title { font-family:'Cairo',sans-serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:900; margin-bottom:1rem; }
+        .section-sub { color:var(--text-dim); font-size:1.05rem; max-width:600px; margin:0 auto; }
+
+        /* SERVICES */
+        .services { background:var(--primary); }
+        .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; max-width:1200px; margin:0 auto; }
+        .service-card {
+            background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:2.2rem;
+            transition:all 0.4s; position:relative; overflow:hidden; cursor:default;
+        }
+        .service-card::before {
+            content:''; position:absolute; top:0; left:0; right:0; height:3px;
+            background:linear-gradient(90deg,var(--accent),var(--accent-2));
+            transform:scaleX(0); transform-origin:right; transition:transform 0.4s ease;
+        }
+        .service-card:hover::before { transform:scaleX(1); transform-origin:left; }
+        .service-card:hover { border-color:var(--border-accent); transform:translateY(-8px); box-shadow:0 20px 60px rgba(0,217,255,0.15); background:var(--surface-2); }
+        .svc-icon {
+            width:64px; height:64px; border-radius:16px;
+            background:linear-gradient(135deg,rgba(0,217,255,0.15),rgba(123,92,255,0.15));
+            border:1px solid rgba(0,217,255,0.2); display:flex; align-items:center; justify-content:center;
+            font-size:1.8rem; margin-bottom:1.5rem; transition:all 0.3s;
+        }
+        .service-card:hover .svc-icon { background:linear-gradient(135deg,rgba(0,217,255,0.25),rgba(123,92,255,0.25)); transform:scale(1.1) rotate(5deg); }
+        .svc-en { font-size:1.2rem; font-weight:700; font-family:'Cairo',sans-serif; margin-bottom:0.3rem; }
+        .svc-ar { font-size:0.85rem; color:var(--accent); margin-bottom:1rem; font-weight:600; }
+        .svc-desc { color:var(--text-dim); font-size:0.95rem; line-height:1.8; }
+        .svc-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1.2rem; }
+        .svc-tag {
+            font-size:0.72rem; padding:0.25rem 0.7rem; border-radius:50px; font-weight:600;
+            background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-dim);
+        }
+
+        /* PORTFOLIO */
+        .portfolio { background:var(--surface); }
+        .portfolio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .port-card { border-radius:20px; overflow:hidden; background:var(--surface-2); border:1px solid var(--border); transition:all 0.4s; }
+        .port-card:hover { transform:translateY(-10px); border-color:var(--border-accent); box-shadow:0 25px 70px rgba(0,217,255,0.2); }
+        .port-img-wrap { position:relative; overflow:hidden; height:220px; background:linear-gradient(135deg,#0f1428,#1e2848); }
+        .port-img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+        .port-card:hover .port-img { transform:scale(1.06); }
+        .port-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(5,8,18,0.9) 0%,transparent 60%); }
+        .port-badge {
+            position:absolute; top:1rem; right:1rem;
+            font-size:0.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+            padding:0.35rem 0.8rem; border-radius:50px;
+            background:rgba(0,217,255,0.15); border:1px solid rgba(0,217,255,0.3); color:var(--accent);
+        }
+        .port-placeholder { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:5rem; }
+        .port-body { padding:1.5rem; }
+        .port-title { font-family:'Cairo',sans-serif; font-size:1.2rem; font-weight:700; margin-bottom:0.6rem; }
+        .port-desc { color:var(--text-dim); font-size:0.9rem; line-height:1.7; margin-bottom:1rem; }
+        .port-link { display:inline-flex; align-items:center; gap:0.4rem; color:var(--accent); font-size:0.85rem; font-weight:600; text-decoration:none; transition:gap 0.3s; }
+        .port-link:hover { gap:0.7rem; }
+
+        /* PROCESS */
+        .process { background:var(--primary); }
+        .process-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:0; max-width:1100px; margin:0 auto; position:relative; }
+        .process-steps::before {
+            content:''; position:absolute; top:40px; left:10%; right:10%; height:1px;
+            background:linear-gradient(90deg,transparent,var(--border-accent),var(--accent-2),var(--border-accent),transparent);
+        }
+        .step { text-align:center; padding:2rem 1.5rem; }
+        .step-num {
+            width:80px; height:80px; border-radius:50%; background:var(--surface-2);
+            border:2px solid var(--border-accent); display:flex; align-items:center; justify-content:center;
+            margin:0 auto 1.5rem; font-family:'Cairo',sans-serif; font-size:1.4rem; font-weight:900;
+            color:var(--accent); position:relative; z-index:1; transition:all 0.3s;
+        }
+        .step:hover .step-num { background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff; border-color:transparent; box-shadow:0 0 30px rgba(0,217,255,0.4); }
+        .step h3 { font-family:'Cairo',sans-serif; font-size:1.1rem; font-weight:700; margin-bottom:0.7rem; }
+        .step p { color:var(--text-dim); font-size:0.9rem; line-height:1.7; }
+
+        /* TECH */
+        .tech-section { background:var(--surface); }
+        .tech-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; max-width:900px; margin:0 auto; }
+        .tech-pill {
+            display:flex; align-items:center; gap:0.6rem; padding:0.7rem 1.4rem; border-radius:50px;
+            background:var(--surface-2); border:1px solid var(--border); font-size:0.9rem; font-weight:600;
+            transition:all 0.3s; cursor:default;
+        }
+        .tech-pill:hover { border-color:var(--border-accent); background:rgba(0,217,255,0.06); transform:translateY(-3px); color:var(--accent); }
+        .tech-pill i { font-size:1.3rem; }
+
+        /* TESTIMONIALS */
+        .testimonials { background:var(--primary); }
+        .testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; max-width:1100px; margin:0 auto; }
+        .testi-card {
+            background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:2rem;
+            transition:all 0.3s; position:relative;
+        }
+        .testi-card::before {
+            content:'"'; position:absolute; top:1rem; left:1.5rem;
+            font-size:5rem; line-height:1; color:rgba(0,217,255,0.1); font-family:serif;
+        }
+        .testi-card:hover { border-color:var(--border-accent); transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,217,255,0.12); }
+        .testi-stars { color:#f5c842; font-size:0.9rem; margin-bottom:1rem; letter-spacing:2px; }
+        .testi-text { color:var(--text-dim); line-height:1.8; font-size:0.95rem; margin-bottom:1.5rem; position:relative; z-index:1; }
+        .testi-author { display:flex; align-items:center; gap:1rem; }
+        .testi-avatar {
+            width:44px; height:44px; border-radius:50%;
+            background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Cairo',sans-serif; font-weight:700; font-size:1.1rem; color:#fff; flex-shrink:0;
+        }
+        .testi-name { font-weight:700; font-size:0.95rem; }
+        .testi-role { color:var(--text-dim); font-size:0.8rem; }
+
+        /* WHY */
+        .why-us { background:var(--surface); }
+        .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:2rem; max-width:1100px; margin:0 auto; }
+        .why-card {
+            padding:2rem; border-radius:16px; background:var(--primary); border:1px solid var(--border);
+            text-align:center; transition:all 0.3s;
+        }
+        .why-card:hover { border-color:var(--border-accent); transform:translateY(-8px); box-shadow:0 0 60px rgba(0,217,255,0.15); }
+        .why-ico {
+            width:70px; height:70px; border-radius:20px;
+            background:linear-gradient(135deg,rgba(0,217,255,0.15),rgba(123,92,255,0.15));
+            border:1px solid rgba(0,217,255,0.2); display:flex; align-items:center; justify-content:center;
+            font-size:2rem; margin:0 auto 1.5rem; transition:all 0.3s;
+        }
+        .why-card:hover .why-ico { background:linear-gradient(135deg,var(--accent),var(--accent-2)); transform:scale(1.1); }
+        .why-card h3 { font-family:'Cairo',sans-serif; font-size:1.2rem; font-weight:700; margin-bottom:0.8rem; }
+        .why-card p { color:var(--text-dim); font-size:0.92rem; line-height:1.7; }
+
+        /* CTA */
+        .cta-section { padding:6rem 5%; text-align:center; background:var(--primary); }
+        .cta-box {
+            max-width:800px; margin:0 auto; padding:4rem 3rem;
+            background:var(--surface-2); border-radius:30px; border:1px solid var(--border-accent);
+            position:relative; overflow:hidden;
+        }
+        .cta-box::before {
+            content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+            background:conic-gradient(from 0deg,transparent 0%,rgba(0,217,255,0.05) 15%,transparent 30%);
+            animation:rotate 8s linear infinite;
+        }
+        @keyframes rotate { 100%{transform:rotate(360deg)} }
+        .cta-inner { position:relative; z-index:1; }
+        .cta-box h2 { font-family:'Cairo',sans-serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:900; margin-bottom:1rem; }
+        .cta-box p { color:var(--text-dim); font-size:1.1rem; margin-bottom:2.5rem; line-height:1.9; }
+        .cta-btns { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+
+        /* CONTACT */
+        .contact-section { background:var(--surface); padding:4rem 5%; }
+        .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; max-width:900px; margin:3rem auto 0; }
+        .contact-card {
+            background:var(--primary); border:1px solid var(--border); border-radius:16px; padding:2rem;
+            text-align:center; transition:all 0.3s; text-decoration:none; color:inherit; display:block;
+        }
+        .contact-card:hover { border-color:var(--border-accent); transform:translateY(-6px); box-shadow:0 15px 40px rgba(0,217,255,0.12); }
+        .contact-ico { font-size:2.5rem; margin-bottom:1rem; display:block; }
+        .contact-card h4 { font-family:'Cairo',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:0.4rem; }
+        .contact-card p { color:var(--text-dim); font-size:0.9rem; }
+
+        /* FOOTER */
+        footer { padding:3rem 5% 2rem; background:var(--primary-2); border-top:1px solid var(--border); text-align:center; }
+        .footer-inner { max-width:1200px; margin:0 auto; }
+        .social-row { display:flex; justify-content:center; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
+        .social-btn {
+            width:50px; height:50px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+            text-decoration:none; font-size:1.5rem; color:#fff; transition:all 0.3s; border:1px solid var(--border); background:var(--surface);
+        }
+        .social-btn:hover { transform:translateY(-5px) scale(1.08); }
+        .social-btn.fb { background:#1877F2; border-color:#1877F2; }
+        .social-btn.wa { background:#25D366; border-color:#25D366; }
+        .social-btn.yt { background:#FF0000; border-color:#FF0000; }
+        .footer-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin:1rem 0; }
+        .footer-links a { color:var(--text-dim); text-decoration:none; font-size:0.85rem; transition:color 0.3s; }
+        .footer-links a:hover { color:var(--accent); }
+        .footer-copy { color:var(--text-dimmer); font-size:0.82rem; margin-top:1.5rem; }
+        .footer-tagline { color:var(--accent); font-size:0.9rem; margin-top:0.5rem; }
+
+        /* AUTO SOFTWARE FEATURED BANNER */
+        .auto-banner {
+            padding:5rem 5%;
+            background:var(--primary);
+            position:relative;
+            overflow:hidden;
+        }
+        .auto-banner-inner {
+            max-width:1200px;
+            margin:0 auto;
+            background:linear-gradient(135deg, #0d1530 0%, #111d3d 50%, #0a1228 100%);
+            border:1px solid rgba(245,200,66,0.25);
+            border-radius:28px;
+            padding:3.5rem 4rem;
+            display:grid;
+            grid-template-columns:1fr auto;
+            gap:3rem;
+            align-items:center;
+            position:relative;
+            overflow:hidden;
+        }
+        .auto-banner-inner::before {
+            content:'';
+            position:absolute;
+            top:-40%;
+            right:-5%;
+            width:400px;
+            height:400px;
+            border-radius:50%;
+            background:radial-gradient(circle, rgba(245,200,66,0.08) 0%, transparent 70%);
+            pointer-events:none;
+        }
+        .auto-banner-inner::after {
+            content:'';
+            position:absolute;
+            bottom:-30%;
+            left:20%;
+            width:300px;
+            height:300px;
+            border-radius:50%;
+            background:radial-gradient(circle, rgba(0,217,255,0.06) 0%, transparent 70%);
+            pointer-events:none;
+        }
+        .auto-badge-top {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
+            color:var(--gold); background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.3);
+            padding:0.4rem 1rem; border-radius:50px; margin-bottom:1.2rem;
+        }
+        .auto-content { position:relative; z-index:1; }
+        .auto-content h2 {
+            font-family:'Cairo',sans-serif;
+            font-size:clamp(1.6rem,3vw,2.5rem);
+            font-weight:900;
+            line-height:1.3;
+            margin-bottom:1rem;
+        }
+        .auto-content h2 span {
+            background:linear-gradient(135deg,var(--gold),#ffaa00);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .auto-content p {
+            color:var(--text-dim);
+            font-size:1rem;
+            line-height:1.85;
+            max-width:620px;
+            margin-bottom:2rem;
+        }
+        .auto-stats-row {
+            display:flex;
+            gap:2rem;
+            flex-wrap:wrap;
+            margin-bottom:2rem;
+        }
+        .auto-stat {
+            text-align:center;
+        }
+        .auto-stat-num {
+            font-family:'Cairo',sans-serif;
+            font-size:1.8rem;
+            font-weight:900;
+            color:var(--gold);
+        }
+        .auto-stat-lbl {
+            color:var(--text-dim);
+            font-size:0.8rem;
+            margin-top:0.2rem;
+        }
+        .auto-cta-row { display:flex; gap:1rem; flex-wrap:wrap; }
+        .btn-gold {
+            display:inline-flex; align-items:center; gap:0.6rem;
+            padding:0.9rem 2rem;
+            background:linear-gradient(135deg,var(--gold),#e6a800);
+            border:none; border-radius:50px;
+            color:#0a0a0a; font-weight:800; font-size:0.95rem;
+            cursor:pointer; text-decoration:none;
+            transition:all 0.3s; font-family:'Cairo',sans-serif;
+            box-shadow:0 6px 25px rgba(245,200,66,0.35);
+        }
+        .btn-gold:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(245,200,66,0.5); }
+        .auto-visual {
+            position:relative; z-index:1;
+            display:flex; flex-direction:column; align-items:center; gap:1rem;
+            min-width:180px;
+        }
+        .auto-icon-big {
+            width:120px; height:120px; border-radius:28px;
+            background:linear-gradient(135deg,rgba(245,200,66,0.15),rgba(245,200,66,0.05));
+            border:1px solid rgba(245,200,66,0.3);
+            display:flex; align-items:center; justify-content:center;
+            font-size:3.5rem;
+            box-shadow:0 0 60px rgba(245,200,66,0.15);
+        }
+        .auto-crown-label {
+            font-size:0.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+            color:var(--gold); text-align:center;
+        }
+        @media(max-width:900px) {
+            .auto-banner-inner { grid-template-columns:1fr; padding:2.5rem 2rem; }
+            .auto-visual { flex-direction:row; justify-content:flex-start; }
+        }
+
+        /* FLAGSHIP PROJECTS */
+        .flagship { background:var(--surface); padding:6rem 5%; }
+        .flagship-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .flagship-card {
+            background:var(--primary);
+            border:1px solid var(--border);
+            border-radius:24px;
+            overflow:hidden;
+            transition:all 0.4s;
+            position:relative;
+        }
+        .flagship-card:hover { transform:translateY(-10px); box-shadow:0 30px 80px rgba(0,0,0,0.4); }
+        .flagship-card-top {
+            padding:2rem 2rem 0;
+            display:flex; justify-content:space-between; align-items:flex-start;
+        }
+        .flagship-icon-wrap {
+            width:70px; height:70px; border-radius:20px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:2rem;
+        }
+        .flagship-status {
+            font-size:0.7rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+            padding:0.35rem 0.9rem; border-radius:50px;
+        }
+        .status-live { background:rgba(0,230,118,0.1); border:1px solid rgba(0,230,118,0.3); color:var(--green); }
+        .status-soon { background:rgba(255,107,53,0.1); border:1px solid rgba(255,107,53,0.3); color:var(--accent-warm); }
+        .flagship-card-body { padding:1.8rem 2rem 2rem; }
+        .flagship-category {
+            font-size:0.73rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+            margin-bottom:0.6rem;
+        }
+        .flagship-title {
+            font-family:'Cairo',sans-serif;
+            font-size:1.4rem; font-weight:900;
+            margin-bottom:0.8rem;
+            line-height:1.3;
+        }
+        .flagship-desc {
+            color:var(--text-dim);
+            font-size:0.92rem;
+            line-height:1.8;
+            margin-bottom:1.5rem;
+        }
+        .flagship-features {
+            display:flex; flex-direction:column; gap:0.5rem;
+            margin-bottom:1.8rem;
+        }
+        .flagship-feature {
+            display:flex; align-items:center; gap:0.6rem;
+            font-size:0.88rem; color:var(--text-dim);
+        }
+        .flagship-feature::before {
+            content:'✓';
+            width:20px; height:20px; border-radius:6px;
+            background:rgba(0,217,255,0.1); border:1px solid rgba(0,217,255,0.2);
+            display:flex; align-items:center; justify-content:center;
+            font-size:0.7rem; color:var(--accent); font-weight:700;
+            flex-shrink:0;
+        }
+        .flagship-footer {
+            padding:1.2rem 2rem;
+            border-top:1px solid var(--border);
+            display:flex; align-items:center; justify-content:space-between;
+        }
+        .flagship-invest {
+            font-size:0.8rem; color:var(--text-dimmer);
+        }
+        .flagship-invest strong { color:var(--text); font-weight:700; }
+        .flagship-link {
+            display:inline-flex; align-items:center; gap:0.4rem;
+            font-size:0.85rem; font-weight:700; text-decoration:none;
+            transition:gap 0.3s;
+        }
+        .flagship-link:hover { gap:0.8rem; }
+
+        /* CYBER card glow */
+        .flagship-card.cyber:hover { border-color:rgba(0,230,118,0.3); box-shadow:0 30px 80px rgba(0,230,118,0.1); }
+        .flagship-card.egx:hover { border-color:rgba(245,200,66,0.3); box-shadow:0 30px 80px rgba(245,200,66,0.1); }
+        .flagship-card.trend:hover { border-color:rgba(255,107,53,0.3); box-shadow:0 30px 80px rgba(255,107,53,0.1); }
+
+        /* REVEAL */
+        .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease,transform 0.7s ease; }
+        .reveal.visible { opacity:1; transform:none; }
+        .reveal.d1 { transition-delay:0.1s; }
+        .reveal.d2 { transition-delay:0.2s; }
+        .reveal.d3 { transition-delay:0.3s; }
+        .reveal.d4 { transition-delay:0.4s; }
+
+        /* ── HERO FLOATERS ── */
+        .hero-floaters { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+        .floater {
+            position:absolute;
+            background:rgba(10,15,35,0.85);
+            backdrop-filter:blur(20px);
+            -webkit-backdrop-filter:blur(20px);
+            border:1px solid rgba(255,255,255,0.09);
+            border-radius:14px;
+            padding:0.75rem 1.2rem;
+            font-size:0.8rem;
+            display:flex; align-items:center; gap:0.6rem;
+            color:var(--text-dim);
+            font-weight:600;
+            white-space:nowrap;
+            animation:floatAnim 7s ease-in-out infinite;
+        }
+        .floater i { font-size:1.15rem; }
+        .floater .f-num { font-family:'Cairo',sans-serif; font-size:1.3rem; font-weight:900; color:var(--accent); line-height:1; }
+        .f1 { top:22%; left:4%;  animation-delay:0s;   border-color:rgba(84,197,248,0.25); }
+        .f2 { top:25%; right:4%; animation-delay:2s;   border-color:rgba(123,92,255,0.25); }
+        .f3 { bottom:28%; left:6%;  animation-delay:4s; border-color:rgba(0,217,255,0.25); }
+        .f4 { bottom:23%; right:5%; animation-delay:6s; border-color:rgba(0,230,118,0.25); }
+        @media(max-width:1024px){ .hero-floaters { display:none; } }
+        @keyframes floatAnim { 0%,100%{transform:translateY(0) rotate(-0.5deg)} 50%{transform:translateY(-16px) rotate(0.5deg)} }
+
+        /* ── MARQUEE STRIP ── */
+        .marquee-strip {
+            padding:0.85rem 0;
+            background:var(--surface-2);
+            border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border);
+            overflow:hidden;
+            position:relative;
+        }
+        .marquee-strip::before,.marquee-strip::after {
+            content:''; position:absolute; top:0; width:80px; height:100%; z-index:2; pointer-events:none;
+        }
+        .marquee-strip::before { left:0;  background:linear-gradient(to right,var(--primary),transparent); }
+        .marquee-strip::after  { right:0; background:linear-gradient(to left,var(--primary),transparent); }
+        .marquee-track { display:flex; animation:marquee 40s linear infinite; width:max-content; }
+        .marquee-item {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            padding:0.25rem 2rem;
+            font-size:0.82rem; font-weight:700; color:var(--text-dim);
+            border-left:1px solid var(--border);
+            white-space:nowrap;
+        }
+        .marquee-item i { font-size:1.1rem; color:var(--accent); }
+        @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+        /* ── SERVICE ICON COLORS ── */
+        .svc-icon i { font-size:2rem; }
+        .svc-icon.c-cyan   { background:linear-gradient(135deg,rgba(0,217,255,0.18),rgba(0,217,255,0.04));   border-color:rgba(0,217,255,0.3); }
+        .svc-icon.c-cyan i { color:#00d9ff; filter:drop-shadow(0 0 8px rgba(0,217,255,0.55)); }
+        .svc-icon.c-purple   { background:linear-gradient(135deg,rgba(123,92,255,0.18),rgba(123,92,255,0.04)); border-color:rgba(123,92,255,0.3); }
+        .svc-icon.c-purple i { color:#7b5cff; filter:drop-shadow(0 0 8px rgba(123,92,255,0.55)); }
+        .svc-icon.c-green   { background:linear-gradient(135deg,rgba(0,230,118,0.18),rgba(0,230,118,0.04));   border-color:rgba(0,230,118,0.3); }
+        .svc-icon.c-green i { color:#00e676; filter:drop-shadow(0 0 8px rgba(0,230,118,0.55)); }
+        .svc-icon.c-blue   { background:linear-gradient(135deg,rgba(33,150,243,0.18),rgba(33,150,243,0.04)); border-color:rgba(33,150,243,0.3); }
+        .svc-icon.c-blue i { color:#42a5f5; filter:drop-shadow(0 0 8px rgba(33,150,243,0.55)); }
+        .svc-icon.c-orange   { background:linear-gradient(135deg,rgba(255,107,53,0.18),rgba(255,107,53,0.04)); border-color:rgba(255,107,53,0.3); }
+        .svc-icon.c-orange i { color:#ff6b35; filter:drop-shadow(0 0 8px rgba(255,107,53,0.55)); }
+        .svc-icon.c-gold   { background:linear-gradient(135deg,rgba(245,200,66,0.18),rgba(245,200,66,0.04));   border-color:rgba(245,200,66,0.3); }
+        .svc-icon.c-gold i { color:#f5c842; filter:drop-shadow(0 0 8px rgba(245,200,66,0.55)); }
+
+        /* ── WHY ICO COLORS ── */
+        .why-ico i { font-size:2.2rem; }
+        .why-ico.c-gold   { background:linear-gradient(135deg,rgba(245,200,66,0.15),rgba(245,200,66,0.04)); border-color:rgba(245,200,66,0.22); }
+        .why-ico.c-gold i { color:var(--gold);    filter:drop-shadow(0 0 8px rgba(245,200,66,0.4)); }
+        .why-ico.c-cyan   { background:linear-gradient(135deg,rgba(0,217,255,0.15),rgba(0,217,255,0.04));   border-color:rgba(0,217,255,0.22); }
+        .why-ico.c-cyan i { color:var(--accent);  filter:drop-shadow(0 0 8px rgba(0,217,255,0.4)); }
+        .why-ico.c-purple { background:linear-gradient(135deg,rgba(123,92,255,0.15),rgba(123,92,255,0.04)); border-color:rgba(123,92,255,0.22); }
+        .why-ico.c-purple i { color:var(--accent-2); filter:drop-shadow(0 0 8px rgba(123,92,255,0.4)); }
+        .why-ico.c-green  { background:linear-gradient(135deg,rgba(0,230,118,0.15),rgba(0,230,118,0.04));   border-color:rgba(0,230,118,0.22); }
+        .why-ico.c-green i  { color:var(--green); filter:drop-shadow(0 0 8px rgba(0,230,118,0.4)); }
+
+        /* ── PORTFOLIO GRADIENTS ── */
+        .port-img-wrap.grad-ai   { background:linear-gradient(145deg,#0d1035 0%,#1a0a32 55%,#0a1430 100%); }
+        .port-img-wrap.grad-news { background:linear-gradient(145deg,#080f28 0%,#0e1530 55%,#0a1228 100%); }
+        .port-img-wrap.grad-card { background:linear-gradient(145deg,#081820 0%,#0b1e18 55%,#091a14 100%); }
+        .port-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.7rem; }
+        .port-placeholder i { font-size:4.5rem; opacity:0.55; }
+        .pp-label { font-size:0.7rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; opacity:0.35; color:var(--text); }
+
+        /* ── AUTO FULL SECTION ── */
+        .auto-full { padding:6rem 5%; background:var(--primary); }
+        .auto-full-inner { max-width:1200px; margin:0 auto; }
+        .auto-hero-card {
+            background:linear-gradient(135deg, #0c1226 0%, #10192e 40%, #0d1630 100%);
+            border:1px solid rgba(245,200,66,0.22);
+            border-radius:30px;
+            padding:4rem;
+            position:relative;
+            overflow:hidden;
+            margin-bottom:2.5rem;
+        }
+        .auto-hero-card::before {
+            content:''; position:absolute; top:-60px; right:-60px;
+            width:350px; height:350px; border-radius:50%;
+            background:radial-gradient(circle,rgba(245,200,66,0.1) 0%,transparent 70%);
+            pointer-events:none;
+        }
+        .auto-hero-card::after {
+            content:''; position:absolute; bottom:-80px; left:30%;
+            width:250px; height:250px; border-radius:50%;
+            background:radial-gradient(circle,rgba(0,217,255,0.07) 0%,transparent 70%);
+            pointer-events:none;
+        }
+        .auto-hero-top {
+            display:grid; grid-template-columns:1fr auto;
+            gap:3rem; align-items:center;
+            position:relative; z-index:1;
+        }
+        .auto-world-badge {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
+            color:var(--gold); background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.3);
+            padding:0.45rem 1.1rem; border-radius:50px; margin-bottom:1.3rem;
+        }
+        .auto-hero-title {
+            font-family:'Cairo',sans-serif;
+            font-size:clamp(1.6rem,3vw,2.6rem);
+            font-weight:900; line-height:1.3;
+            margin-bottom:1.2rem;
+        }
+        .auto-hero-title .gold { background:linear-gradient(135deg,var(--gold),#e09900); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        .auto-hero-desc {
+            color:var(--text-dim);
+            font-size:1rem;
+            line-height:2;
+            max-width:640px;
+            margin-bottom:2.2rem;
+        }
+        .auto-hero-desc strong { color:var(--text); }
+        .auto-big-stats {
+            display:flex; gap:2.5rem; flex-wrap:wrap;
+            margin-bottom:2.5rem;
+        }
+        .auto-big-stat { text-align:center; }
+        .auto-big-num {
+            font-family:'Cairo',sans-serif;
+            font-size:2.4rem; font-weight:900;
+            background:linear-gradient(135deg,var(--gold),#e09900);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            line-height:1;
+        }
+        .auto-big-lbl { color:var(--text-dim); font-size:0.8rem; margin-top:0.3rem; }
+        .auto-cta-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+
+        .auto-globe-visual {
+            display:flex; flex-direction:column; align-items:center; gap:1.2rem;
+            position:relative; z-index:1; min-width:200px;
+        }
+        .auto-globe-ring {
+            width:160px; height:160px; border-radius:50%;
+            background:linear-gradient(135deg,rgba(245,200,66,0.12),rgba(245,200,66,0.03));
+            border:2px solid rgba(245,200,66,0.2);
+            display:flex; align-items:center; justify-content:center;
+            position:relative;
+            animation:slowSpin 20s linear infinite;
+            box-shadow:0 0 60px rgba(245,200,66,0.12), inset 0 0 40px rgba(245,200,66,0.05);
+        }
+        @keyframes slowSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        .auto-globe-ring i { font-size:4rem; color:#f5c842; animation:counterSpin 20s linear infinite; filter:drop-shadow(0 0 20px rgba(245,200,66,0.7)); }
+        @keyframes counterSpin { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+        .auto-globe-tag {
+            font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+            color:var(--gold); text-align:center; line-height:1.6;
+        }
+        @media(max-width:900px){ .auto-hero-top { grid-template-columns:1fr; } .auto-car-photo { width:100%; height:200px; border-radius:16px; } }
+
+        /* catalog grid */
+        .auto-catalog-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:1.2rem;
+        }
+        .auto-cat-card {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:18px;
+            padding:1.6rem;
+            transition:all 0.3s;
+            display:flex; gap:1.1rem; align-items:flex-start;
+        }
+        .auto-cat-card:hover {
+            border-color:rgba(245,200,66,0.3);
+            background:var(--surface-2);
+            transform:translateY(-5px);
+            box-shadow:0 15px 45px rgba(245,200,66,0.08);
+        }
+        .auto-cat-ico {
+            width:52px; height:52px; border-radius:14px; flex-shrink:0;
+            background:linear-gradient(135deg,rgba(245,200,66,0.13),rgba(245,200,66,0.03));
+            border:1px solid rgba(245,200,66,0.22);
+            display:flex; align-items:center; justify-content:center;
+        }
+        .auto-cat-ico i { font-size:1.5rem; color:var(--gold); }
+        .auto-cat-title { font-family:'Cairo',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.35rem; }
+        .auto-cat-desc { color:var(--text-dim); font-size:0.82rem; line-height:1.7; }
+
+        /* ── CONTACT & AUTO ICONS ── */
+        .contact-ico i { font-size:2.8rem; }
+        .auto-icon-big i { font-size:3.5rem; filter:drop-shadow(0 0 20px rgba(245,200,66,0.55)); }
+
+        /* ── REAL IMAGES ── */
+        .svc-img-wrap {
+            width:100%; height:165px;
+            border-radius:14px; overflow:hidden;
+            margin-bottom:1.5rem; position:relative;
+        }
+        .svc-img-wrap img {
+            width:100%; height:100%;
+            object-fit:cover;
+            filter:brightness(0.78) saturate(1.3);
+            transition:transform 0.5s ease, filter 0.4s ease;
+        }
+        .service-card:hover .svc-img-wrap img { transform:scale(1.08); filter:brightness(0.95) saturate(1.4); }
+        .svc-img-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to top, var(--surface) 0%, rgba(15,20,40,0.1) 100%);
+        }
+
+        .why-img-wrap {
+            width:100%; height:155px;
+            border-radius:14px; overflow:hidden;
+            margin:0 auto 1.5rem;
+        }
+        .why-img-wrap img {
+            width:100%; height:100%;
+            object-fit:cover;
+            filter:brightness(0.72) saturate(1.2);
+            transition:transform 0.5s ease, filter 0.4s ease;
+        }
+        .why-card:hover .why-img-wrap img { transform:scale(1.08); filter:brightness(0.92) saturate(1.4); }
+
+        .flagship-img-hdr { width:100%; height:200px; position:relative; overflow:hidden; }
+        .flagship-img-hdr img {
+            width:100%; height:100%;
+            object-fit:cover;
+            filter:brightness(0.6) saturate(1.3);
+            transition:transform 0.5s ease, filter 0.4s ease;
+        }
+        .flagship-card:hover .flagship-img-hdr img { transform:scale(1.06); filter:brightness(0.82) saturate(1.5); }
+        .flagship-img-hdr-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to top, var(--primary) 0%, transparent 60%);
+        }
+        .flagship-card { border-radius:24px; overflow:hidden; }
+
+        .auto-car-photo {
+            width:240px; height:240px;
+            border-radius:20px; overflow:hidden;
+            border:2px solid rgba(245,200,66,0.35);
+            box-shadow:0 0 70px rgba(245,200,66,0.22);
+            position:relative; z-index:1; flex-shrink:0;
+        }
+        .auto-car-photo img {
+            width:100%; height:100%;
+            object-fit:cover;
+            filter:brightness(0.88) saturate(1.3);
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+            header { padding:1rem 4%; }
+            .badge-available { display:none; }
+            .hero { padding:4rem 4% 3rem; }
+            .hero-cta { flex-direction:column; width:100%; }
+            .btn-primary, .btn-outline { width:100%; justify-content:center; }
+            .process-steps::before { display:none; }
+            section { padding:4rem 4%; }
+            .cta-box { padding:2.5rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-mesh" aria-hidden="true"></div>
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<!-- HEADER -->
+<header>
+    <div class="logo-wrap">
+        <img src="logo.png" alt="Emperor Logo" class="logo-img">
+        <div class="logo-text">
+            <div class="top">Emperor</div>
+            <div class="sub">Software Development</div>
+        </div>
+    </div>
+    <nav class="nav-cta">
+        <div class="badge-available">
+            <span class="badge-dot"></span>
+            متاح للمشاريع الجديدة
+        </div>
+        <button class="btn-header" onclick="handleWhatsApp()">ابدأ مشروعك ←</button>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-tag">🚀 شريكك في التحول الرقمي</div>
+    <h1>
+        نبني الحلول البرمجية<br>
+        <span class="line-2">التي تُغيّر قواعد اللعبة</span>
+    </h1>
+    <p class="hero-desc">
+        من تطبيقات الموبايل إلى أنظمة الأتمتة بالذكاء الاصطناعي — نحن نحول أفكارك إلى منتجات رقمية تنافس على المستوى العالمي
+    </p>
+    <div class="hero-cta">
+        <button class="btn-primary" onclick="handleWhatsApp()">
+            <i class='bx bxl-whatsapp' style="font-size:1.3rem"></i>
+            تواصل معنا الآن
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+            استعرض خدماتنا
+            <i class='bx bx-chevron-down'></i>
+        </button>
+    </div>
+    <div class="hero-floaters" aria-hidden="true">
+        <div class="floater f1"><i class='bx bxl-flutter' style="color:#54C5F8"></i> <span>Flutter Expert</span></div>
+        <div class="floater f2"><i class='bx bx-chip' style="color:#7b5cff"></i> <span>AI-Powered</span></div>
+        <div class="floater f3"><span class="f-num">20+</span> <span>تطبيق منشور</span></div>
+        <div class="floater f4"><i class='bx bx-shield-check' style="color:#00e676"></i> <span>Cybersecurity</span></div>
+    </div>
+    <div class="hero-scroll">
+        <span>اكتشف المزيد</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stats-grid">
+        <div class="stat-item reveal"><div class="stat-num">20+</div><div class="stat-lbl">تطبيق منشور على Google Play</div></div>
+        <div class="stat-item reveal d1"><div class="stat-num">8+</div><div class="stat-lbl">سنوات خبرة في البرمجة</div></div>
+        <div class="stat-item reveal d2"><div class="stat-num">15+</div><div class="stat-lbl">Workflow أتمتة بـ n8n</div></div>
+        <div class="stat-item reveal d3"><div class="stat-num">100%</div><div class="stat-lbl">التزام بالجودة والمواعيد</div></div>
+    </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+        <div class="marquee-item"><i class='bx bxs-car'></i> برامج السيارات</div>
+        <div class="marquee-item"><i class='bx bx-shield-check'></i> أمن سيبراني</div>
+        <div class="marquee-item"><i class='bx bxl-flutter'></i> Flutter Dev</div>
+        <div class="marquee-item"><i class='bx bx-trending-up'></i> توصيات البورصة</div>
+        <div class="marquee-item"><i class='bx bx-bot'></i> AI Automation</div>
+        <div class="marquee-item"><i class='bx bxl-telegram'></i> Smart Bots</div>
+        <div class="marquee-item"><i class='bx bx-cloud'></i> SaaS Solutions</div>
+        <div class="marquee-item"><i class='bx bx-bar-chart-alt-2'></i> CRM Systems</div>
+        <div class="marquee-item"><i class='bx bxl-facebook'></i> Social Media AI</div>
+        <div class="marquee-item"><i class='bx bx-code-alt'></i> Web Applications</div>
+        <div class="marquee-item"><i class='bx bxs-car'></i> برامج السيارات</div>
+        <div class="marquee-item"><i class='bx bx-shield-check'></i> أمن سيبراني</div>
+        <div class="marquee-item"><i class='bx bxl-flutter'></i> Flutter Dev</div>
+        <div class="marquee-item"><i class='bx bx-trending-up'></i> توصيات البورصة</div>
+        <div class="marquee-item"><i class='bx bx-bot'></i> AI Automation</div>
+        <div class="marquee-item"><i class='bx bxl-telegram'></i> Smart Bots</div>
+        <div class="marquee-item"><i class='bx bx-cloud'></i> SaaS Solutions</div>
+        <div class="marquee-item"><i class='bx bx-bar-chart-alt-2'></i> CRM Systems</div>
+        <div class="marquee-item"><i class='bx bxl-facebook'></i> Social Media AI</div>
+        <div class="marquee-item"><i class='bx bx-code-alt'></i> Web Applications</div>
+    </div>
+</div>
+
+<!-- AUTO SOFTWARE BANNER -->
+<!-- AUTO SOFTWARE FULL SECTION -->
+<section class="auto-full" id="automotive">
+    <div class="auto-full-inner">
+
+        <!-- HERO CARD -->
+        <div class="auto-hero-card reveal">
+            <div class="auto-hero-top">
+                <div>
+                    <div class="auto-world-badge"><i class='bx bxs-crown'></i> المورّد الأول عالمياً</div>
+                    <h2 class="auto-hero-title">
+                        أضخم مكتبة برامج سيارات<br>
+                        <span class="gold">في العالم — تحت سقف واحد</span>
+                    </h2>
+                    <p class="auto-hero-desc">
+                        Emperor ليست مجرد موزّع برامج — نحن <strong>المرجع العالمي</strong> لكل من يعمل في صناعة صيانة السيارات وإصلاح وحدات التحكم الإلكترونية.<br><br>
+                        مكتبتنا تضم برامج تشخيص، إصلاح كنترول ECU/TCU، ملفات Pinout وWiring، فلاشات أصلية، كورسات تقنية متخصصة، وكتب فنية — لجميع الماركات العالمية من <strong>BMW ، Mercedes ، Toyota ، VAG ، Ford ، Hyundai ، GM</strong> وأكثر من 100 علامة تجارية أخرى. بمحتوى إجمالي يتخطى <strong style="color:var(--gold)">10 تيرابايت</strong> من البيانات التقنية النادرة التي لا تجدها في أي مكان آخر.
+                    </p>
+                    <div class="auto-big-stats">
+                        <div class="auto-big-stat"><div class="auto-big-num">10 TB+</div><div class="auto-big-lbl">محتوى تقني ونادر</div></div>
+                        <div class="auto-big-stat"><div class="auto-big-num">100+</div><div class="auto-big-lbl">ماركة سيارات</div></div>
+                        <div class="auto-big-stat"><div class="auto-big-num">50+</div><div class="auto-big-lbl">دولة نورّد إليها</div></div>
+                        <div class="auto-big-stat"><div class="auto-big-num">8+</div><div class="auto-big-lbl">سنوات خبرة في القطاع</div></div>
+                    </div>
+                    <div class="auto-cta-btns">
+                        <a href="https://wa.me/c/201111915613" target="_blank" class="btn-gold">
+                            <i class='bx bx-catalogue' style="font-size:1.2rem"></i>
+                            تصفّح الكتالوج الكامل
+                        </a>
+                        <button class="btn-outline" onclick="handleWhatsApp()" style="font-size:0.92rem;padding:0.9rem 1.8rem">
+                            <i class='bx bxl-whatsapp'></i>
+                            استفسر الآن
+                        </button>
+                    </div>
+                </div>
+                <div class="auto-car-photo">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Luxury Car — Emperor Automotive Software" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <!-- CATALOG GRID -->
+        <div class="auto-catalog-grid">
+            <div class="auto-cat-card reveal">
+                <div class="auto-cat-ico"><i class='bx bx-chip'></i></div>
+                <div>
+                    <div class="auto-cat-title">برامج إصلاح الكنترول ECU / TCU</div>
+                    <div class="auto-cat-desc">فلاشات، Dumps، Calibration Files لجميع وحدات التحكم الإلكترونية — محرك، ناقل حركة، ABS، Airbag وأكثر</div>
+                </div>
+            </div>
+            <div class="auto-cat-card reveal d1">
+                <div class="auto-cat-ico"><i class='bx bx-search-alt'></i></div>
+                <div>
+                    <div class="auto-cat-title">برامج التشخيص الاحترافية</div>
+                    <div class="auto-cat-desc">برامج ODIS، ISTA، IDS، TIS، HDS، GDS2 وغيرها لكل ماركة وموديل — أصلية بالـ License</div>
+                </div>
+            </div>
+            <div class="auto-cat-card reveal d2">
+                <div class="auto-cat-ico"><i class='bx bx-file'></i></div>
+                <div>
+                    <div class="auto-cat-title">ملفات PDF التقنية والـ Wiring</div>
+                    <div class="auto-cat-desc">مئات الآلاف من ملفات Wiring Diagrams، Pinout، Service Manuals، Workshop Manuals لكل طراز من 1980 حتى اليوم</div>
+                </div>
+            </div>
+            <div class="auto-cat-card reveal d3">
+                <div class="auto-cat-ico"><i class='bx bx-book-open'></i></div>
+                <div>
+                    <div class="auto-cat-title">كورسات تقنية متخصصة</div>
+                    <div class="auto-cat-desc">دورات إلكترونيات سيارات، برمجة ECU، تحليل Oscilloscope، إصلاح الكنترول — بمحتوى حصري لا يُباع في مكان آخر</div>
+                </div>
+            </div>
+            <div class="auto-cat-card reveal">
+                <div class="auto-cat-ico"><i class='bx bx-wrench'></i></div>
+                <div>
+                    <div class="auto-cat-title">برامج البرمجة والكوديج</div>
+                    <div class="auto-cat-desc">VCDS، Forscan، PCMFlash، AutoCom، Delphi وكل أدوات الكوديج والبرمجة لمراكز الصيانة المحترفة</div>
+                </div>
+            </div>
+            <div class="auto-cat-card reveal d1">
+                <div class="auto-cat-ico"><i class='bx bx-world'></i></div>
+                <div>
+                    <div class="auto-cat-title">توريد لجميع أنحاء العالم</div>
+                    <div class="auto-cat-desc">نورّد لأكثر من 50 دولة — مصر، الخليج، أوروبا، أفريقيا، أمريكا. تسليم رقمي فوري أو شحن فيزيائي</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="section-header">
+        <div class="section-tag">✦ خدماتنا</div>
+        <h2 class="section-title">حلول برمجية متكاملة<br>للأفراد والشركات</h2>
+        <p class="section-sub">من الفكرة حتى الإطلاق — نقدم كل ما تحتاجه لبناء منتجك الرقمي</p>
+    </div>
+    <div class="services-grid">
+        <div class="service-card reveal">
+            <div class="svc-img-wrap">
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80" alt="Mobile Applications" loading="lazy">
+                <div class="svc-img-overlay"></div>
+            </div>
+            <div class="svc-en">Mobile Applications</div>
+            <div class="svc-ar">تطبيقات الموبايل</div>
+            <p class="svc-desc">تطبيقات Android و iOS احترافية بتقنية Flutter — أداء عالٍ، تصميم عصري، تجربة مستخدم استثنائية</p>
+            <div class="svc-tags"><span class="svc-tag">Flutter</span><span class="svc-tag">Android</span><span class="svc-tag">iOS</span><span class="svc-tag">Google Play</span></div>
+        </div>
+        <div class="service-card reveal d1">
+            <div class="svc-img-wrap">
+                <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=500&q=80" alt="AI Automation" loading="lazy">
+                <div class="svc-img-overlay"></div>
+            </div>
+            <div class="svc-en">AI Automation</div>
+            <div class="svc-ar">الأتمتة بالذكاء الاصطناعي</div>
+            <p class="svc-desc">حلول n8n و AI Agents لأتمتة العمليات المتكررة، توفير الوقت، وزيادة الإنتاجية بشكل هائل</p>
+            <div class="svc-tags"><span class="svc-tag">n8n</span><span class="svc-tag">AI Agents</span><span class="svc-tag">Workflows</span><span class="svc-tag">APIs</span></div>
+        </div>
+        <div class="service-card reveal d2">
+            <div class="svc-img-wrap">
+                <img src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=500&q=80" alt="Chat Bot" loading="lazy">
+                <div class="svc-img-overlay"></div>
+            </div>
+            <div class="svc-en">Smart Chat Bot</div>
+            <div class="svc-ar">الشات بوت الذكي</div>
+            <p class="svc-desc">بوتات محادثة ذكية على Telegram و WhatsApp — للدعم الآلي، البيع، متابعة العملاء، وتحليل البورصة</p>
+            <div class="svc-tags"><span class="svc-tag">Telegram Bot</span><span class="svc-tag">WhatsApp</span><span class="svc-tag">AI</span><span class="svc-tag">OpenAI</span></div>
+        </div>
+        <div class="service-card reveal">
+            <div class="svc-img-wrap">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80" alt="SaaS Cloud Solutions" loading="lazy">
+                <div class="svc-img-overlay"></div>
+            </div>
+            <div class="svc-en">SaaS Solutions</div>
+            <div class="svc-ar">حلول SaaS</div>
+            <p class="svc-desc">منصات SaaS قابلة للتوسع مع أنظمة اشتراكات ومدفوعات متكاملة وداشبورد إدارية متقدمة</p>
+            <div class="svc-tags"><span class="svc-tag">Multi-Tenant</span><span class="svc-tag">Subscriptions</span><span class="svc-tag">Dashboard</span></div>
+        </div>
+        <div class="service-card reveal d1">
+            <div class="svc-img-wrap">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&q=80" alt="CRM Analytics" loading="lazy">
+                <div class="svc-img-overlay"></div>
+            </div>
+            <div class="svc-en">CRM Systems</div>
+            <div class="svc-ar">أنظمة CRM</div>
+            <p class="svc-desc">أنظمة إدارة علاقات العملاء المخصصة لتتبع المبيعات، إدارة العملاء المحتملين، وزيادة الإيرادات</p>
+            <div class="svc-tags"><span class="svc-tag">Sales Pipeline</span><span class="svc-tag">Analytics</span><span class="svc-tag">Reports</span></div>
+        </div>
+        <div class="service-card reveal d2">
+            <div class="svc-img-wrap">
+                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=500&q=80" alt="Web Development" loading="lazy">
+                <div class="svc-img-overlay"></div>
+            </div>
+            <div class="svc-en">Web & Desktop Apps</div>
+            <div class="svc-ar">تطبيقات الويب والديسكتوب</div>
+            <p class="svc-desc">مواقع ويب متجاوبة وتطبيقات ديسكتوب قوية، من Landing Pages احترافية حتى الأنظمة المعقدة</p>
+            <div class="svc-tags"><span class="svc-tag">React</span><span class="svc-tag">Next.js</span><span class="svc-tag">Laravel</span><span class="svc-tag">Electron</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+    <div class="section-header">
+        <div class="section-tag">✦ أعمالنا</div>
+        <h2 class="section-title">مشاريع حقيقية<br>نتائج قابلة للقياس</h2>
+        <p class="section-sub">نماذج من أعمالنا المنشورة على Google Play وعملاء حقيقيين</p>
+    </div>
+    <div class="portfolio-grid">
+        <div class="port-card reveal">
+            <div class="port-img-wrap grad-ai">
+                <img src="project1.png" alt="AI Automation" class="port-img" onerror="this.style.display='none'">
+                <div class="port-placeholder"><i class='bx bx-bot' style="color:rgba(0,217,255,0.7)"></i><span class="pp-label">AI Automation</span></div>
+                <div class="port-overlay"></div>
+                <div class="port-badge">AI Automation</div>
+            </div>
+            <div class="port-body">
+                <div class="port-title">أنظمة الأتمتة بـ n8n</div>
+                <p class="port-desc">Workflows متكاملة لأتمتة العمليات التجارية — تكامل مع Google Sheets، Telegram، APIs وأنظمة الذكاء الاصطناعي</p>
+            </div>
+        </div>
+        <div class="port-card reveal d1">
+            <div class="port-img-wrap grad-news">
+                <img src="project2.png" alt="News App" class="port-img" onerror="this.style.display='none'">
+                <div class="port-placeholder"><i class='bx bx-news' style="color:rgba(123,92,255,0.7)"></i><span class="pp-label">News App</span></div>
+                <div class="port-overlay"></div>
+                <div class="port-badge">Mobile App</div>
+            </div>
+            <div class="port-body">
+                <div class="port-title">تطبيق أخبار بالعربي</div>
+                <p class="port-desc">تطبيق أخبار متعدد المصادر على Google Play — مصادر إخبارية عالمية بالعربية مع إشعارات فورية وتجربة مستخدم سلسة</p>
+                <a href="https://play.google.com/store/apps/details?id=com.emperor.hossam.newsbelaraby" target="_blank" class="port-link">عرض على Google Play <i class='bx bx-right-arrow-alt'></i></a>
+            </div>
+        </div>
+        <div class="port-card reveal d2">
+            <div class="port-img-wrap grad-card">
+                <img src="project3.png" alt="Business Card App" class="port-img" onerror="this.style.display='none'">
+                <div class="port-placeholder"><i class='bx bx-id-card' style="color:rgba(0,230,118,0.7)"></i><span class="pp-label">Business Card</span></div>
+                <div class="port-overlay"></div>
+                <div class="port-badge">Mobile App</div>
+            </div>
+            <div class="port-body">
+                <div class="port-title">تطبيق البطاقة الرقمية</div>
+                <p class="port-desc">تطبيق إنشاء بطاقات أعمال رقمية مع QR Code للمشاركة الفورية — منشور على Google Play ويستخدمه عملاء حقيقيون</p>
+                <a href="https://play.google.com/store/apps/details?id=com.hossam.bussinesscard" target="_blank" class="port-link">عرض على Google Play <i class='bx bx-right-arrow-alt'></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FLAGSHIP PROJECTS -->
+<section class="flagship" id="flagship">
+    <div class="section-header">
+        <div class="section-tag">✦ مشاريعنا الكبرى</div>
+        <h2 class="section-title">حلول متقدمة<br>نبنيها لتُغيّر الصناعات</h2>
+        <p class="section-sub">مشاريع ضخمة طوّرناها من الصفر — تقنية عالية المستوى تخدم أسواقاً حقيقية</p>
+    </div>
+    <div class="flagship-grid">
+
+        <!-- BugBot / Cybersecurity -->
+        <div class="flagship-card cyber reveal">
+            <div class="flagship-img-hdr">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=700&q=80" alt="Cybersecurity" loading="lazy">
+                <div class="flagship-img-hdr-overlay"></div>
+            </div>
+            <div class="flagship-card-top">
+                <div class="flagship-icon-wrap" style="background:linear-gradient(135deg,rgba(0,230,118,0.15),rgba(0,230,118,0.05));border:1px solid rgba(0,230,118,0.2)"><i class='bx bx-shield-check' style="color:#00e676;font-size:2.2rem;filter:drop-shadow(0 0 10px rgba(0,230,118,0.5))"></i></div>
+                <span class="flagship-status status-live">● مشغّل الآن</span>
+            </div>
+            <div class="flagship-card-body">
+                <div class="flagship-category" style="color:var(--green)">Cybersecurity · AI Automation</div>
+                <div class="flagship-title">منظومة الأمن السيبراني الذكية</div>
+                <p class="flagship-desc">
+                    نظام متكامل لاكتشاف الثغرات الأمنية تلقائياً بتقنية الذكاء الاصطناعي — مشروع ضخم استثمارنا فيه أكثر من <strong style="color:var(--green)">10,000$</strong>، يعمل 24/7 ويُقدّم تقارير أمنية احترافية لحماية المنصات الرقمية.
+                </p>
+                <div class="flagship-features">
+                    <div class="flagship-feature">مسح أمني متعدد المراحل بالذكاء الاصطناعي</div>
+                    <div class="flagship-feature">تقارير PDF جاهزة للتسليم للعملاء</div>
+                    <div class="flagship-feature">كشف الثغرات وفلترة النتائج الزائفة تلقائياً</div>
+                    <div class="flagship-feature">يعمل على مدار الساعة بدون تدخل بشري</div>
+                </div>
+            </div>
+            <div class="flagship-footer">
+                <div class="flagship-invest">استثمار: <strong>$10,000+</strong></div>
+                <a href="#contact" class="flagship-link" style="color:var(--green)" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">
+                    استفسر عن الخدمة <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- EGX Emperor -->
+        <div class="flagship-card egx reveal d1">
+            <div class="flagship-img-hdr">
+                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=700&q=80" alt="Stock Market Trading" loading="lazy">
+                <div class="flagship-img-hdr-overlay"></div>
+            </div>
+            <div class="flagship-card-top">
+                <div class="flagship-icon-wrap" style="background:linear-gradient(135deg,rgba(245,200,66,0.15),rgba(245,200,66,0.05));border:1px solid rgba(245,200,66,0.25)"><i class='bx bx-trending-up' style="color:#f5c842;font-size:2.2rem;filter:drop-shadow(0 0 10px rgba(245,200,66,0.5))"></i></div>
+                <span class="flagship-status status-live">● متاح الآن</span>
+            </div>
+            <div class="flagship-card-body">
+                <div class="flagship-category" style="color:var(--gold)">FinTech · Flutter App · AI</div>
+                <div class="flagship-title">EGX Emperor<br>تطبيق البورصة المصرية</div>
+                <p class="flagship-desc">
+                    أكبر تطبيق توصيات ذكية لبورصة مصر — يُحلّل السوق لحظياً بالذكاء الاصطناعي ويُقدّم توصيات دقيقة للمتداولين. مبني بـ Flutter بأعلى معايير الأداء والتصميم.
+                </p>
+                <div class="flagship-features">
+                    <div class="flagship-feature">توصيات لحظية مدعومة بتحليل الذكاء الاصطناعي</div>
+                    <div class="flagship-feature">متابعة لحظية لأسهم البورصة المصرية EGX</div>
+                    <div class="flagship-feature">تصميم Premium بتجربة مستخدم فائقة</div>
+                    <div class="flagship-feature">إشعارات فورية لأهم الفرص السوقية</div>
+                </div>
+            </div>
+            <div class="flagship-footer">
+                <div class="flagship-invest">تطبيق <strong>Flutter</strong> احترافي</div>
+                <a href="#contact" class="flagship-link" style="color:var(--gold)" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">
+                    تعرّف على التطبيق <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Trend Bot -->
+        <div class="flagship-card trend reveal d2">
+            <div class="flagship-img-hdr">
+                <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?w=700&q=80" alt="Social Media Trending" loading="lazy">
+                <div class="flagship-img-hdr-overlay"></div>
+            </div>
+            <div class="flagship-card-top">
+                <div class="flagship-icon-wrap" style="background:linear-gradient(135deg,rgba(255,107,53,0.15),rgba(255,107,53,0.05));border:1px solid rgba(255,107,53,0.25)"><i class='bx bxs-rocket' style="color:#ff6b35;font-size:2.2rem;filter:drop-shadow(0 0 10px rgba(255,107,53,0.5))"></i></div>
+                <span class="flagship-status status-soon">⏳ قريباً</span>
+            </div>
+            <div class="flagship-card-body">
+                <div class="flagship-category" style="color:var(--accent-warm)">Social Media · AI · SaaS</div>
+                <div class="flagship-title">منصة بناء الترند<br>على فيسبوك</div>
+                <p class="flagship-desc">
+                    منصة من الجيل القادم تُمكّن الشركات والمؤثرين من صناعة المحتوى الرائج على فيسبوك بإمكانيات غير مسبوقة — الذكاء الاصطناعي، الأتمتة الكاملة، والتحليل اللحظي في منظومة واحدة متكاملة.
+                </p>
+                <div class="flagship-features">
+                    <div class="flagship-feature">أتمتة كاملة لإدارة الحملات وبناء التفاعل</div>
+                    <div class="flagship-feature">محتوى ذكي مُولَّد بالذكاء الاصطناعي</div>
+                    <div class="flagship-feature">لوحة تحكم متكاملة عبر Telegram</div>
+                    <div class="flagship-feature">إمكانيات لا مثيل لها في السوق الآن</div>
+                </div>
+            </div>
+            <div class="flagship-footer">
+                <div class="flagship-invest">إطلاق <strong>2026</strong></div>
+                <a href="#contact" class="flagship-link" style="color:var(--accent-warm)" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">
+                    كن أول المنضمّين <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+    <div class="section-header">
+        <div class="section-tag">✦ كيف نعمل</div>
+        <h2 class="section-title">من الفكرة إلى الإطلاق<br>في 4 خطوات</h2>
+    </div>
+    <div class="process-steps">
+        <div class="step reveal">
+            <div class="step-num">01</div>
+            <h3>الاستشارة المجانية</h3>
+            <p>نجتمع معك لفهم فكرتك ومتطلباتك بالكامل ونضع الخطة المناسبة</p>
+        </div>
+        <div class="step reveal d1">
+            <div class="step-num">02</div>
+            <h3>التصميم والتخطيط</h3>
+            <p>نصمم واجهات UI/UX مقنعة ونضع خارطة طريق واضحة للمشروع</p>
+        </div>
+        <div class="step reveal d2">
+            <div class="step-num">03</div>
+            <h3>التطوير والبرمجة</h3>
+            <p>نبرمج المشروع بأعلى المعايير مع تحديثات دورية وإشراك مستمر</p>
+        </div>
+        <div class="step reveal d3">
+            <div class="step-num">04</div>
+            <h3>الإطلاق والدعم</h3>
+            <p>نطلق المشروع ونتابعه معك ونوفر دعم تقني مستمر بعد التسليم</p>
+        </div>
+    </div>
+</section>
+
+<!-- TECH -->
+<section class="tech-section">
+    <div class="section-header">
+        <div class="section-tag">✦ التقنيات</div>
+        <h2 class="section-title">نستخدم أحدث التقنيات</h2>
+        <p class="section-sub">مجموعة مختارة من التقنيات المثبتة في الصناعة</p>
+    </div>
+    <div class="tech-grid">
+        <div class="tech-pill reveal"><i class='bx bxl-flutter' style="color:#54C5F8"></i> Flutter</div>
+        <div class="tech-pill reveal"><i class='bx bxl-firebase' style="color:#FFA000"></i> Firebase</div>
+        <div class="tech-pill reveal"><i class='bx bxl-python' style="color:#3572A5"></i> Python</div>
+        <div class="tech-pill reveal"><i class='bx bxl-javascript' style="color:#F7DF1E"></i> JavaScript</div>
+        <div class="tech-pill reveal"><i class='bx bxl-react' style="color:#61DAFB"></i> React</div>
+        <div class="tech-pill reveal"><i class='bx bxl-nodejs' style="color:#68A063"></i> Node.js</div>
+        <div class="tech-pill reveal">🔄 n8n Automation</div>
+        <div class="tech-pill reveal">🤖 OpenAI / GPT</div>
+        <div class="tech-pill reveal"><i class='bx bxl-docker' style="color:#2496ED"></i> Docker</div>
+        <div class="tech-pill reveal"><i class='bx bxl-google-cloud' style="color:#4285F4"></i> Google Cloud</div>
+        <div class="tech-pill reveal">📡 REST APIs</div>
+        <div class="tech-pill reveal">📬 Telegram Bot API</div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <div class="section-header">
+        <div class="section-tag">✦ آراء العملاء</div>
+        <h2 class="section-title">ماذا يقول عملاؤنا؟</h2>
+        <p class="section-sub">تجارب حقيقية من أشخاص عملوا معنا</p>
+    </div>
+    <div class="testi-grid">
+        <div class="testi-card reveal">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">عملت مع Hosam على تطبيق موبايل للأخبار وكانت التجربة ممتازة. سرعة في التنفيذ، تواصل دائم، والنتيجة النهائية فاقت توقعاتي. ينصح به بشدة!</p>
+            <div class="testi-author">
+                <div class="testi-avatar">أ</div>
+                <div><div class="testi-name">أحمد السيد</div><div class="testi-role"> مراسل إخباري</div></div>
+            </div>
+        </div>
+        <div class="testi-card reveal d1">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">طلبت بوت تليجرام لمتابعة البورصة المصرية، الشغل كان احترافي جداً. البوت شغال 24/7 بدون أي مشاكل. شكراً جزيلاً على الدعم المستمر.</p>
+            <div class="testi-author">
+                <div class="testi-avatar" style="background:linear-gradient(135deg,#7b5cff,#f5576c)">م</div>
+                <div><div class="testi-name">محمد علي</div><div class="testi-role">متداول في البورصة</div></div>
+            </div>
+        </div>
+        <div class="testi-card reveal d2">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">عمل رائع في تصميم وبرمجة نظام CRM مخصص لشركتنا. وفّر علينا وقتاً وجهداً كبيرين في إدارة العملاء. فريق محترف يستحق الثقة.</p>
+            <div class="testi-author">
+                <div class="testi-avatar" style="background:linear-gradient(135deg,#ff6b35,#f5c842)">ن</div>
+                <div><div class="testi-name">نادية حسن</div><div class="testi-role">صاحبة شركة تجارية</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-us">
+    <div class="section-header">
+        <div class="section-tag">✦ لماذا نحن</div>
+        <h2 class="section-title">لماذا تختار Emperor؟</h2>
+    </div>
+    <div class="why-grid">
+        <div class="why-card reveal">
+            <div class="why-img-wrap">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=500&q=80" alt="Fast Delivery" loading="lazy">
+            </div>
+            <h3>تسليم سريع</h3>
+            <p>نلتزم بالمواعيد المتفق عليها ونسلم مشروعك في الوقت المحدد بدون تأخير</p>
+        </div>
+        <div class="why-card reveal d1">
+            <div class="why-img-wrap">
+                <img src="https://images.unsplash.com/photo-1536148935331-408321065b18?w=500&q=80" alt="Real Experience" loading="lazy">
+            </div>
+            <h3>خبرة عملية حقيقية</h3>
+            <p>8+ سنوات خبرة مع تطبيقات منشورة فعلياً على Google Play يستخدمها الناس</p>
+        </div>
+        <div class="why-card reveal d2">
+            <div class="why-img-wrap">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&q=80" alt="Real Partnership" loading="lazy">
+            </div>
+            <h3>شراكة حقيقية</h3>
+            <p>مش مجرد مبرمج للتنفيذ — نحن شركاؤك الاستراتيجيون في بناء مشروعك الرقمي</p>
+        </div>
+        <div class="why-card reveal d3">
+            <div class="why-img-wrap">
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=500&q=80" alt="Continuous Support" loading="lazy">
+            </div>
+            <h3>دعم مستمر</h3>
+            <p>لا ينتهي عملنا بعد التسليم — نوفر صيانة ودعم تقني ومتابعة بعد الإطلاق</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+    <div class="cta-box">
+        <div class="cta-inner">
+            <h2>جاهز لبناء مشروعك الرقمي؟</h2>
+            <p>احصل على استشارة مجانية الآن — نناقش فكرتك ونضع لك خطة عملية واضحة للبدء</p>
+            <div class="cta-btns">
+                <button class="btn-primary" onclick="handleWhatsApp()">
+                    <i class='bx bxl-whatsapp' style="font-size:1.3rem"></i>
+                    ابدأ على واتساب مجاناً
+                </button>
+                <a href="mailto:elhosam77@gmail.com" style="display:inline-flex;align-items:center;gap:0.6rem;padding:1rem 2.5rem;border:1.5px solid rgba(0,217,255,0.3);border-radius:50px;color:var(--accent);font-weight:700;font-family:'Cairo',sans-serif;text-decoration:none;transition:all 0.3s;font-size:1.05rem;" onmouseover="this.style.background='rgba(0,217,255,0.08)'" onmouseout="this.style.background='transparent'">
+                    <i class='bx bx-envelope'></i>
+                    راسلنا بالإيميل
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT INFO -->
+<section class="contact-section">
+    <div class="section-header">
+        <div class="section-tag">✦ تواصل معنا</div>
+        <h2 class="section-title">نحن هنا لمساعدتك</h2>
+    </div>
+    <div class="contact-grid">
+        <a href="https://wa.me/201111915613" target="_blank" class="contact-card">
+            <span class="contact-ico"><i class='bx bxl-whatsapp' style="color:#25D366"></i></span>
+            <h4>واتساب</h4>
+            <p>+20 111 191 5613</p>
+            <p style="color:var(--green);font-size:0.8rem;margin-top:0.4rem;font-weight:600">متاح الآن ✓</p>
+        </a>
+        <a href="mailto:elhosam77@gmail.com" class="contact-card">
+            <span class="contact-ico"><i class='bx bx-envelope' style="color:#00d9ff"></i></span>
+            <h4>البريد الإلكتروني</h4>
+            <p>elhosam77@gmail.com</p>
+        </a>
+        <a href="https://www.facebook.com/7osammohamed/" target="_blank" class="contact-card">
+            <span class="contact-ico"><i class='bx bxl-facebook' style="color:#1877F2"></i></span>
+            <h4>فيسبوك</h4>
+            <p>تابعنا على فيسبوك</p>
+        </a>
+        <div class="contact-card" style="cursor:default">
+            <span class="contact-ico"><i class='bx bx-map-pin' style="color:#ff6b35"></i></span>
+            <h4>الموقع</h4>
+            <p>مصر — السويس — الأربعين</p>
+            <p style="color:var(--accent);font-size:0.8rem;margin-top:0.4rem;">نخدم عملاء في كل العالم 🌍</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="social-row">
+            <a href="https://www.facebook.com/7osammohamed/" target="_blank" class="social-btn fb" title="Facebook"><i class='bx bxl-facebook'></i></a>
+            <a href="https://wa.me/201111915613" target="_blank" class="social-btn wa" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+            <a href="https://www.youtube.com/@hosammohamed77" target="_blank" class="social-btn yt" title="YouTube"><i class='bx bxl-youtube'></i></a>
+        </div>
+        <div class="footer-links">
+            <a href="privacy-policy.html">سياسة الخصوصية</a>
+            <span style="color:var(--text-dimmer)">|</span>
+            <a href="terms-of-service.html">شروط الخدمة</a>
+        </div>
+        <p class="footer-copy">© 2018–2026 Emperor Software Development. جميع الحقوق محفوظة.</p>
+        <p class="footer-tagline">نبني المستقبل وفقاً لخيالك 🚀</p>
+    </div>
+</footer>
+
+<script>
+    function handleWhatsApp() {
+        const num = '201111915613';
+        const msg = 'السلام عليكم، أريد الاستفسار عن خدمات Emperor Software Development 🚀';
+        window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Reveal on scroll
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold:0.12, rootMargin:'0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
