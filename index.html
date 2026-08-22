@@ -130,19 +130,21 @@
         .hero-cta { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; animation:fadeInUp 0.8s ease-out 0.4s both; }
         .btn-primary {
             display:inline-flex; align-items:center; gap:0.6rem;
-            padding:1rem 2.5rem;
+            padding:0.85rem 2rem;
             background:linear-gradient(135deg,var(--accent),var(--accent-2));
-            border:none; border-radius:50px; color:#fff; font-weight:700; font-size:1.05rem;
+            border:none; border-radius:10px; color:#000; font-weight:700; font-size:0.98rem;
             cursor:pointer; transition:all 0.3s; font-family:'Cairo',sans-serif;
             box-shadow:0 8px 30px rgba(192,255,62,0.3); position:relative; overflow:hidden;
+            text-decoration:none;
         }
         .btn-primary:hover { transform:translateY(-3px); box-shadow:0 15px 45px rgba(192,255,62,0.5); }
         .btn-outline {
             display:inline-flex; align-items:center; gap:0.6rem;
-            padding:1rem 2.5rem; background:transparent;
-            border:1.5px solid var(--border-accent); border-radius:50px;
-            color:var(--accent); font-weight:700; font-size:1.05rem;
+            padding:0.85rem 2rem; background:transparent;
+            border:1.5px solid var(--border-accent); border-radius:10px;
+            color:var(--accent); font-weight:700; font-size:0.98rem;
             cursor:pointer; transition:all 0.3s; font-family:'Cairo',sans-serif;
+            text-decoration:none;
         }
         .btn-outline:hover { background:rgba(192,255,62,0.08); border-color:var(--accent); transform:translateY(-3px); }
         .hero-scroll {
@@ -446,9 +448,9 @@
         .auto-cta-row { display:flex; gap:1rem; flex-wrap:wrap; }
         .btn-gold {
             display:inline-flex; align-items:center; gap:0.6rem;
-            padding:0.9rem 2rem;
+            padding:0.85rem 1.8rem;
             background:linear-gradient(135deg,var(--gold),#a8e61a);
-            border:none; border-radius:50px;
+            border:none; border-radius:10px;
             color:#0a0a0a; font-weight:800; font-size:0.95rem;
             cursor:pointer; text-decoration:none;
             transition:all 0.3s; font-family:'Cairo',sans-serif;
@@ -848,10 +850,12 @@
             }
             .hero { padding:4rem 4% 3rem; }
             .hero-cta { flex-direction:column; width:100%; }
-            .btn-primary, .btn-outline { width:100%; justify-content:center; }
+            .btn-primary, .btn-outline, .btn-gold { width:100%; justify-content:center; padding:0.7rem 1.5rem; font-size:0.88rem; border-radius:8px; }
             .process-steps::before { display:none; }
             section { padding:4rem 4%; }
             .cta-box { padding:2.5rem 1.5rem; }
+            .cta-btns { flex-direction:column; }
+            .cta-btns .btn-outline { font-size:0.88rem; padding:0.7rem 1.5rem; }
         }
         @media(max-width:480px) {
             .logo-img { height:30px; filter:drop-shadow(0 0 6px rgba(192,255,62,0.35)); }
@@ -863,6 +867,7 @@
                 font-size:11px;
                 border-radius:6px;
             }
+            .btn-primary, .btn-outline, .btn-gold { padding:0.6rem 1.2rem; font-size:0.82rem; border-radius:6px; }
         }
     </style>
 </head>
@@ -1409,7 +1414,7 @@
                     <i class='bx bxl-whatsapp' style="font-size:1.3rem"></i>
                     ابدأ على واتساب مجاناً
                 </button>
-                <a href="mailto:elhosam77@gmail.com" style="display:inline-flex;align-items:center;gap:0.6rem;padding:1rem 2.5rem;border:1.5px solid rgba(192,255,62,0.3);border-radius:50px;color:var(--accent);font-weight:700;font-family:'Cairo',sans-serif;text-decoration:none;transition:all 0.3s;font-size:1.05rem;" onmouseover="this.style.background='rgba(192,255,62,0.08)'" onmouseout="this.style.background='transparent'">
+                <a href="mailto:elhosam77@gmail.com" class="btn-outline" onmouseover="this.style.background='rgba(192,255,62,0.08)'" onmouseout="this.style.background='transparent'">
                     <i class='bx bx-envelope'></i>
                     راسلنا بالإيميل
                 </a>
