@@ -834,7 +834,11 @@
 
         /* MOBILE */
         @media(max-width:768px) {
-            header { padding:1rem 4%; }
+            header { padding:0.8rem 4%; }
+            .logo-img { height:38px; filter:drop-shadow(0 0 8px rgba(192,255,62,0.4)); }
+            .logo-text .top { font-size:0.9rem; }
+            .logo-text .sub { font-size:0.6rem; letter-spacing:2px; }
+            .logo-wrap { gap:0.5rem; }
             .badge-available { display:none; }
             .btn-header {
                 padding:6px 12px;
@@ -850,6 +854,10 @@
             .cta-box { padding:2.5rem 1.5rem; }
         }
         @media(max-width:480px) {
+            .logo-img { height:30px; filter:drop-shadow(0 0 6px rgba(192,255,62,0.35)); }
+            .logo-text .top { font-size:0.78rem; }
+            .logo-text .sub { font-size:0.5rem; letter-spacing:1.5px; }
+            .logo-wrap { gap:0.35rem; }
             .btn-header {
                 padding:5px 10px;
                 font-size:11px;
