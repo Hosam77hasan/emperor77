@@ -335,15 +335,26 @@ function frame(now){requestAnimationFrame(frame);if(!vis)return;const dt=Math.mi
  const vel=Math.abs(camZ-prev)/Math.max(dt,.001);prev=camZ;
  const bob=RM?0:Math.sin(t*6)*.025*Math.min(1,vel/4);
  // look-ahead: start facing the display well before reaching it, then hold it while passing.
- // A manual drag hands the camera fully to the visitor for the rest of the tour.
- let ty=look.yaw,tp=look.pitch;
- if(entered&&!freeLook){
+ // A manual drag hands the camera fully to the visitor for the rest of the tour.let ty=look.yaw;
+// Keep pitch fixed at 0 (horizontal eye-level) - no vertical tilt
+const pitch=0;
+if(entered&&!freeLook){
   let ax=0,az=0,ws=0;
-  for(const o of ex){const fw=focusW(camZ-(o.z+FR));if(fw>0){const dx=o.side*4,dz=-FR,l=Math.hypot(dx,dz);ax+=dx/l*fw;az+=dz/l*fw;ws+=fw}}
-  if(ws>1e-3){const s=Math.min(1,ws);ty=Math.atan2(-ax,-az)*s;tp=Math.atan2(.32,4.1)*s}
- }
- yaw+=(ty-yaw)*Math.min(1,dt*4.2);pitch+=(cl(tp,-.9,.9)-pitch)*Math.min(1,dt*4.2);
- cam.position.set(Math.sin(t*.3)*.08*(RM?0:1),1.68+bob,camZ);cam.rotation.set(pitch,yaw,0,"YXZ");lpos(camZ);
+  for(const o of ex){
+    const fw=focusW(camZ-(o.z+FR));
+    if(fw>0){
+      const dx=o.side*4,dz=-FR,l=Math.hypot(dx,dz);
+      ax+=dx/l*fw;
+      az+=dz/l*fw;
+      ws+=fw
+    }
+  }
+  if(ws>1e-3){
+    const s=Math.min(1,ws);
+    ty=Math.atan2(-ax,-az)*s;
+  }
+}yaw+=(ty-yaw)*Math.min(1,dt*4.2);
+  cam.position.set(Math.sin(t*.3)*.08*(RM?0:1),1.68+bob,camZ);cam.rotation.set(0,yaw,0,"YXZ");lpos(camZ);
  if(lastM&&entered)hov=pick(lastM.clientX,lastM.clientY);if(!entered)hov=-1;
  cv.style.cursor=drag?"grabbing":hov>=0?"pointer":entered?"grab":"default";
  ex.forEach(o=>{const hv=o.i===hov;o.gl.material.opacity+=((hv?.2:.09)-o.gl.material.opacity)*.15;
