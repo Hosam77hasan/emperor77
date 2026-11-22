@@ -15,7 +15,7 @@ h1,h2,h3{font-family:Cairo,Tajawal,sans-serif;margin:0;text-wrap:balance}
 .g{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 #scene{position:relative;height:900vh}
 #stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:radial-gradient(ellipse 60% 50% at 70% 30%,rgba(138,92,255,.22),transparent 70%),radial-gradient(ellipse 55% 45% at 20% 75%,rgba(62,224,255,.14),transparent 70%),radial-gradient(ellipse 40% 30% at 50% 50%,rgba(192,255,62,.07),transparent 70%),var(--bg)}
-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 #hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;pointer-events:none;transition:opacity .5s}
 #hero .logo{width:min(180px,40vw);border-radius:14px;box-shadow:0 0 60px rgba(138,92,255,.5)}
 #hero h1{font-size:clamp(34px,7vw,84px);font-weight:900;line-height:1.1;text-shadow:0 0 40px rgba(0,0,0,.8)}
@@ -29,7 +29,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 #hud .n{font:900 clamp(24px,4.4vw,44px)/1.1 Cairo,sans-serif}
 #hud .t{font-size:12px;letter-spacing:.12em;color:var(--acc);text-transform:uppercase;font-weight:700;margin-bottom:4px}
 #hud .d{color:var(--dim);font-size:clamp(14px,1.8vw,17px);margin-top:6px;max-width:46ch}
-#hud a{pointer-events:auto;color:#05060a;background:var(--acc);font:700 15px Cairo,sans-serif;text-decoration:none;padding:11px 22px;border-radius:999px;white-space:nowrap}
+#hud a{pointer-events:auto;display:inline-block;color:#05060a;background:var(--acc);font:700 15px Cairo,sans-serif;text-decoration:none;padding:12px 26px;border-radius:9px;line-height:1.2;white-space:nowrap;transition:transform .22s ease,filter .22s ease,box-shadow .22s ease}
+#hud a:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 12px 28px -12px rgba(192,255,62,.7)}
 #hud a[hidden]{display:none}
 #bar{position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,var(--vi),var(--cy),var(--acc));transform-origin:right;transform:scaleX(0)}
 #top{position:absolute;top:0;left:0;right:0;padding-top:max(14px,env(safe-area-inset-top,0px));display:flex;justify-content:space-between;align-items:center;font:700 13px Cairo,sans-serif;color:var(--dim);letter-spacing:.14em;opacity:0;transition:opacity .5s;pointer-events:none}
@@ -72,7 +73,7 @@ h2{font-size:clamp(28px,4.6vw,52px);font-weight:900;margin:8px 0 14px;line-heigh
 .btns a.p:hover{transform:translateY(-2px);filter:brightness(1.07)}
 .mail{margin-top:20px;color:var(--dim);user-select:all;direction:ltr}
 footer{padding-block:28px;color:var(--dim);text-align:center;font-size:13px;background:var(--bg)}
-.note{position:fixed;left:0;right:0;bottom:0;z-index:9;text-align:center;font:700 12px Cairo,sans-serif;background:var(--acc);color:#05060a;padding:6px 10px;padding-bottom:max(6px,env(safe-area-inset-bottom,0px))}
+
 @media (prefers-reduced-motion:reduce){#enter,.btns a.p{animation:none}}
 @media (max-width:767px){#hero{padding-bottom:118px}#enter{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 26px);margin-top:0;padding:12px 26px}}
 .pc.flash{animation:fl 2.2s ease}@keyframes fl{0%,100%{box-shadow:none}25%{box-shadow:0 0 0 3px var(--acc),0 0 60px rgba(192,255,62,.5);border-color:var(--acc)}}.pc .btn{margin-top:8px;align-self:flex-start;background:var(--acc);color:#05060a;padding:10px 20px;border-radius:10px;text-decoration:none;font:700 14px Cairo,sans-serif}.pc .btn:hover{filter:brightness(1.08)}#stick{background:#000}.ph{border-radius:34px;padding:6px;background:#0a0a0c;border:2px solid #77746d;box-shadow:inset 0 0 0 1px #000,0 18px 40px -10px rgba(0,0,0,.8),0 0 34px -6px var(--gl,rgba(138,92,255,.5))}.ph img{border-radius:28px}.ph::before{top:12px;width:26%;height:8px;margin-left:-13%;border-radius:6px;background:#000}
@@ -81,7 +82,7 @@ footer{padding-block:28px;color:var(--dim);text-align:center;font-size:13px;back
 
 
 
-<div class="note" style="position:fixed;left:0;right:0;bottom:0;z-index:9;text-align:center;font:700 12px Cairo,sans-serif;background:#C0FF3E;color:#05060a;padding:6px 10px">معاينة فقط — الموقع الحالي لم يتغيّر</div>
+
 <div id="scene">
  <div id="stick">
   <canvas id="cv"></canvas>
@@ -93,7 +94,7 @@ footer{padding-block:28px;color:var(--dim);text-align:center;font-size:13px;back
    <p>شركة Emperor Software Development — من 2018 بنبني تطبيقات ومواقع وبوتات وأنظمة.</p>
    <button id="enter">ادخل عالم Emperor Software Development</button>
   </div>
-  <div id="hint">حرّك الماوس للنظر حواليك · انزل بالسكرول لتتمشى في المعرض · اضغط على أي جهاز لتفاصيله</div>
+  <div id="hint">اسحب يمين/شمال وفوق/تحت للنظر في كل اتجاه · انزل بالسكرول لتتقدّم أو ترجع في المعرض · اضغط على أي جهاز لتفاصيله</div>
   <div id="hud"><div class="in g"><div><div class="t" id="ht"></div><div class="n" id="hn"></div><div class="d" id="hd"></div></div><a id="hl" href="#grid">عرض التفاصيل ↓</a></div></div>
   <div id="flash"></div>
  </div>
@@ -294,15 +295,18 @@ const lpos=cz=>{LS[0].position.set(0,WH-.8,cz+2);LS[1].position.set(0,WH-.8,cz-1
 {lpos(exZ(6));const rt=new T.WebGLCubeRenderTarget(256,{format:T.RGBFormat,generateMipmaps:true,minFilter:T.LinearMipmapLinearFilter});const cc2=new T.CubeCamera(.1,200,rt);cc2.position.set(0,2.2,exZ(6));scene.add(cc2);
  try{cc2.update(R,scene);const pm=new T.PMREMGenerator(R);scene.environment=pm.fromCubemap(rt.texture).texture;scene.environment.encoding=T.sRGBEncoding}catch(e){}}
 // control
-const START=4,ZEND=exZ(N-1)+.6;
-let entered=false,t0=0,camZ=15,mx=0,my=0,yaw=0,pitch=0,prev=15,cur=-1,hov=-1,vis=true;
-addEventListener("mousemove",e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
-addEventListener("touchmove",e=>{const t=e.touches[0];mx=t.clientX/innerWidth-.5;my=t.clientY/innerHeight-.5},{passive:true});
+const START=4,FR=1.6,ZEND=exZ(N-1)+.6;
+let entered=false,t0=0,camZ=15,mx=0,my=0,yaw=0,pitch=0,prev=15,cur=-1,hov=-1,vis=true,scrollT=-1e9,moved=0;
+const look={yaw:0,pitch:0};let drag=null,lastM=null;const cl=(v,a,b)=>v<a?a:v>b?b:v;
+addEventListener("scroll",()=>{scrollT=performance.now()},{passive:true});
+cv.addEventListener("pointerdown",e=>{if(!entered)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY};moved=0;if(e.pointerType==="mouse"&&cv.setPointerCapture){try{cv.setPointerCapture(e.pointerId)}catch(_){}}});
+cv.addEventListener("pointermove",e=>{if(e.pointerType!=="touch")lastM=e;mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;if(!entered||!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;moved+=Math.abs(dx)+Math.abs(dy);look.yaw=cl(look.yaw-dx*.0038,-1.25,1.25);look.pitch=cl(look.pitch-dy*.003,-.8,.8)},{passive:true});
+const endDrag=()=>{drag=null};cv.addEventListener("pointerup",endDrag);cv.addEventListener("pointercancel",endDrag);
+
 new IntersectionObserver(e=>vis=e[0].isIntersecting).observe($("#scene"));
 const ray=new T.Raycaster(),ndc=new T.Vector2();
 function pick(cx,cy){const r=cv.getBoundingClientRect();ndc.set(((cx-r.left)/r.width)*2-1,-((cy-r.top)/r.height)*2+1);ray.setFromCamera(ndc,cam);const h=ray.intersectObjects(hits,false);return h.length?h[0].object.userData.idx:-1}
-cv.addEventListener("click",e=>{if(!entered)return;const i=pick(e.clientX,e.clientY);if(i>=0)scrollToCard(i)});
-let lastM=null;cv.addEventListener("mousemove",e=>{lastM=e});
+cv.addEventListener("click",e=>{if(!entered)return;if(moved>12){moved=0;return}const i=pick(e.clientX,e.clientY);if(i>=0)scrollToCard(i)});
 document.documentElement.style.overflowY="hidden";
 $("#enter").onclick=()=>{entered=true;t0=performance.now();$("#hero").style.opacity=0;$("#hero").style.pointerEvents="none";const f=$("#flash");f.style.transition="none";f.style.opacity=.6;requestAnimationFrame(()=>{f.style.transition="opacity 1.4s";f.style.opacity=0});
  setTimeout(()=>{["hud","top","hint"].forEach(i=>$("#"+i).style.opacity=1);document.documentElement.style.overflowY="";setTimeout(()=>$("#hint").style.opacity=0,6000)},RM?0:2800)};
@@ -313,18 +317,26 @@ function frame(now){requestAnimationFrame(frame);if(!vis)return;const dt=Math.mi
  let target;
  if(!entered)target=15+Math.sin(t*.5)*.4;
  else{const k=RM?1:Math.min(1,(now-t0)/2800),e=1-Math.pow(1-k,3);target=15+(START-15)*e;if(k>=1)target=START+(ZEND-START)*prog()}
- const done=entered&&(RM||now-t0>=2800);camZ=done?camZ+(target-camZ)*Math.min(1,dt*6):target;
+ let near=null,nd=1e9;for(const o of ex){const dd=Math.abs(target-(o.z+FR));if(dd<nd){nd=dd;near=o}}
+ const done=entered&&(RM||now-t0>=2800);
+ // when scrolling stops, settle onto the closest app so it is framed instead of skipped
+ let targetZ=target;if(done&&near&&now-scrollT>240){const pull=cl(1-nd/(SP*.4),0,1);targetZ=target+(near.z+FR-target)*pull*.8}
+ if(done)targetZ=cl(targetZ,ZEND,START);
+ camZ=done?camZ+(targetZ-camZ)*Math.min(1,dt*5):targetZ;
  const vel=Math.abs(camZ-prev)/Math.max(dt,.001);prev=camZ;
  const bob=RM?0:Math.sin(t*6)*.025*Math.min(1,vel/4);
- let ty=-mx*1.2,w=0;for(const o of ex){const dz=o.z-camZ;if(dz<2.2&&dz>-5.2){const dx=o.side*4.0,yy=Math.atan2(-dx,-(dz-.0001)),wt=Math.pow(Math.max(0,1-Math.abs(dz+1.5)/4.2),.7)*.8;if(wt>w){w=wt;ty=ty*(1-wt)+yy*wt}}}
- yaw+=(ty-yaw)*Math.min(1,dt*3.5);pitch+=((-my*.35)-pitch)*Math.min(1,dt*4);
+ let fy=0,fp=0,w=0;if(near){const dx=near.side*4.0,dz=near.z-camZ,rel=Math.abs(dz-FR),ww=cl(1-rel/4.6,0,1);w=ww*ww*(3-2*ww);if(w>0){fy=Math.atan2(-dx,-dz);fp=Math.atan2(.32,Math.max(.5,Math.hypot(dx,dz)))}}
+ // free look is kept while inspecting an app, and re-centres when the visitor travels
+ if(!drag){const dk=Math.pow(now-scrollT<500?.55:.985,dt);look.yaw*=dk;look.pitch*=dk}
+ const ty=fy*w+(-mx*.5)*(1-w)+look.yaw,tp=fp*w+(-my*.16)*(1-w)+look.pitch;
+ yaw+=(ty-yaw)*Math.min(1,dt*4.2);pitch+=(cl(tp,-.9,.9)-pitch)*Math.min(1,dt*4.2);
  cam.position.set(Math.sin(t*.3)*.08*(RM?0:1),1.68+bob,camZ);cam.rotation.set(pitch,yaw,0,"YXZ");lpos(camZ);
  if(lastM&&entered)hov=pick(lastM.clientX,lastM.clientY);if(!entered)hov=-1;
- cv.style.cursor=hov>=0?"pointer":"default";
+ cv.style.cursor=drag?"grabbing":hov>=0?"pointer":entered?"grab":"default";
  ex.forEach(o=>{const hv=o.i===hov;o.gl.material.opacity+=((hv?.2:.09)-o.gl.material.opacity)*.15;
   const sp=hv?.15:(RM?.25:.55);o.dv.rotation.y+=dt*sp;o.dv.position.y=2.0+(RM?0:Math.sin(t*1.2+o.i)*.04);
   const u=o.dv.userData;if(u.texs.length>1){const c=Math.cos(o.dv.rotation.y);if(c<-.4&&!u.sw){u.sw=true;u.idx=(u.idx+1)%u.texs.length;u.mat.map=u.texs[u.idx];u.mat.needsUpdate=true}else if(c>.4)u.sw=false}});
- if(entered){let b=0,bd=1e9;ex.forEach((o,i)=>{const d=Math.abs(camZ-(o.z+.8));if(d<bd){bd=d;b=i}});if(b!==cur){cur=b;const p=P[b];$("#ht").textContent=String(b+1).padStart(2,"0")+" / "+String(N).padStart(2,"0")+" · "+p.t;$("#hn").textContent=p.n;$("#hd").textContent=p.d}}
+ if(entered){let b=0,bd=1e9;ex.forEach((o,i)=>{const d=Math.abs(camZ-(o.z+FR));if(d<bd){bd=d;b=i}});if(b!==cur){cur=b;const p=P[b];$("#ht").textContent=String(b+1).padStart(2,"0")+" / "+String(N).padStart(2,"0")+" · "+p.t;$("#hn").textContent=p.n;$("#hd").textContent=p.d}}
  $("#bar").style.transform="scaleX("+(entered?prog():0)+")";
  R.render(scene,cam)}
 requestAnimationFrame(frame);
