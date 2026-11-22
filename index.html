@@ -320,24 +320,25 @@ const ray=new T.Raycaster(),ndc=new T.Vector2();
 function pick(cx,cy){const r=cv.getBoundingClientRect();ndc.set(((cx-r.left)/r.width)*2-1,-((cy-r.top)/r.height)*2+1);ray.setFromCamera(ndc,cam);const h=ray.intersectObjects(hits,false);return h.length?h[0].object.userData.idx:-1}
 cv.addEventListener("click",e=>{if(!entered)return;if(moved>12){moved=0;return}const i=pick(e.clientX,e.clientY);if(i>=0)scrollToCard(i)});
 document.documentElement.style.overflowY="hidden";
-$("#enter").onclick=()=>{entered=true;t0=performance.now();$("#hero").style.opacity=0;$("#hero").style.pointerEvents="none";const f=$("#flash");f.style.transition="none";f.style.opacity=.6;requestAnimationFrame(()=>{f.style.transition="opacity 1.4s";f.style.opacity=0});
- setTimeout(()=>{["hud","top","hint"].forEach(i=>$("#"+i).style.opacity=1);document.documentElement.style.overflowY="";setTimeout(()=>$("#hint").style.opacity=0,6000)},RM?0:2800)};
+$("#enter").onclick=()=>{entered=true;t0=performance.now();cam.position.set(0,1,camZ);cam.rotation.set(0,0,0,"YXZ");$("#hero").style.opacity=0;$("#hero").style.pointerEvents="none";const f=$("#flash");f.style.transition="none";f.style.opacity=.6;requestAnimationFrame(()=>{f.style.transition="opacity 1.4s";f.style.opacity=0});
+ setTimeout(()=>{["hud","top","hint"].forEach(i=>$("#"+i).style.opacity=1);document.documentElement.style.overflowY="";setTimeout(()=>$("#hint").style.opacity=0,6000)},RM?0:1800)};
 $("#hl").onclick=e=>{e.preventDefault();if(cur>=0)scrollToCard(cur)};
 function prog(){const sc=$("#scene"),r=sc.getBoundingClientRect(),m=sc.offsetHeight-innerHeight;return Math.max(0,Math.min(1,-r.top/m))}
 const clock=new T.Clock();
 const focusW=d=>{const a=Math.abs(d),R=5.5;if(a>=R)return 0;if(a<=1.5)return 1;const u=(a-1.5)/(R-1.5);return 1-u*u*(3-2*u)};
-function frame(now){requestAnimationFrame(frame);if(!vis)return;const dt=Math.min(clock.getDelta(),.05),t=now/1000;
+function frame(now){requestAnimationFrame(frame);if(!vis)return;const rawDt=Math.min(clock.getDelta(),.25),dt=Math.min(rawDt,.05),t=now/1000;
  let target;
  if(!entered)target=15+Math.sin(t*.5)*.4;
- else{const k=RM?1:Math.min(1,(now-t0)/2800),e=1-Math.pow(1-k,3);target=15+(START-15)*e;if(k>=1)target=START+(ZEND-START)*prog()}
- const done=entered&&(RM||now-t0>=2800);
- camZ=done?camZ+(target-camZ)*Math.min(1,dt*5):target;
+ else{const k=RM?1:Math.min(1,(now-t0)/3000),e=1-Math.pow(1-k,3);target=15+(START-15)*e;if(k>=1)target=START+(ZEND-START)*prog()}
+ const done=entered&&(RM||now-t0>=3000);
+ camZ=done?camZ+(target-camZ)*(1-Math.exp(-rawDt*4)):target;
  const vel=Math.abs(camZ-prev)/Math.max(dt,.001);prev=camZ;
- const bob=RM?0:Math.sin(t*6)*.025*Math.min(1,vel/4);
+ const bob=RM?0:Math.sin(t*3)*.015*Math.min(1,vel/6);
  // look-ahead: start facing the display well before reaching it, then hold it while passing.
- // A manual drag hands the camera fully to the visitor for the rest of the tour.let ty=look.yaw;
-// Keep pitch fixed at 0 (horizontal eye-level) - no vertical tilt
-const pitch=0;
+ // A manual drag hands the camera fully to the visitor for the rest of the tour.
+ let ty=look.yaw;
+// pitch stays 0 (horizontal eye-level) - no vertical tilt
+pitch=0;
 if(entered&&!freeLook){
   let ax=0,az=0,ws=0;
   for(const o of ex){
@@ -353,12 +354,12 @@ if(entered&&!freeLook){
     const s=Math.min(1,ws);
     ty=Math.atan2(-ax,-az)*s;
   }
-}yaw+=(ty-yaw)*Math.min(1,dt*4.2);
-  cam.position.set(Math.sin(t*.3)*.08*(RM?0:1),1.68+bob,camZ);cam.rotation.set(0,yaw,0,"YXZ");lpos(camZ);
+}yaw+=(ty-yaw)*(1-Math.exp(-rawDt*4.2));
+  cam.position.set(Math.sin(t*.3)*.08*(RM?0:1),1.0+bob,camZ);cam.rotation.set(0,yaw,0,"YXZ");lpos(camZ);
  if(lastM&&entered)hov=pick(lastM.clientX,lastM.clientY);if(!entered)hov=-1;
  cv.style.cursor=drag?"grabbing":hov>=0?"pointer":entered?"grab":"default";
  ex.forEach(o=>{const hv=o.i===hov;o.gl.material.opacity+=((hv?.2:.09)-o.gl.material.opacity)*.15;
-  const sp=hv?.15:(RM?.25:.55);o.dv.rotation.y+=dt*sp;o.dv.position.y=2.0+(RM?0:Math.sin(t*1.2+o.i)*.04);
+  const sp=hv?.15:(RM?.15:.35);o.dv.rotation.y+=dt*sp;o.dv.position.y=2.0+(RM?0:Math.sin(t*1.2+o.i)*.04);
   const u=o.dv.userData;if(u.texs.length>1){const c=Math.cos(o.dv.rotation.y);if(c<-.4&&!u.sw){u.sw=true;u.idx=(u.idx+1)%u.texs.length;u.mat.map=u.texs[u.idx];u.mat.needsUpdate=true}else if(c>.4)u.sw=false}});
  if(entered){let b=0,bd=1e9;ex.forEach((o,i)=>{const d=Math.abs(camZ-(o.z+FR));if(d<bd){bd=d;b=i}});if(b!==cur){cur=b;const p=P[b];$("#ht").textContent=String(b+1).padStart(2,"0")+" / "+String(N).padStart(2,"0")+" · "+p.t;$("#hn").textContent=p.n;$("#hd").textContent=p.d}}
  $("#bar").style.transform="scaleX("+(entered?prog():0)+")";
