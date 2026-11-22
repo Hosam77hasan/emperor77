@@ -9,16 +9,16 @@
 <style>
 :root{--bg:#04050a;--fg:#f4f6fb;--dim:#9aa3b8;--acc:#C0FF3E;--cy:#3ee0ff;--vi:#8a5cff;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.04);color-scheme:dark}
 *{box-sizing:border-box}
-html{scroll-behavior:auto}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif;direction:rtl;overflow-x:hidden;padding-block:0;padding-left:0;padding-right:0}
+html{scroll-behavior:auto;overscroll-behavior-y:none;overscroll-behavior-x:none}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif;direction:rtl;overflow-x:hidden;padding-block:0;padding-left:0;padding-right:0;overscroll-behavior-y:none;overscroll-behavior-x:none;overflow-anchor:none}
 h1,h2,h3{font-family:Cairo,Tajawal,sans-serif;margin:0;text-wrap:balance}
 .g{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 #scene{position:relative;height:900vh}
 #stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:radial-gradient(ellipse 60% 50% at 70% 30%,rgba(138,92,255,.22),transparent 70%),radial-gradient(ellipse 55% 45% at 20% 75%,rgba(62,224,255,.14),transparent 70%),radial-gradient(ellipse 40% 30% at 50% 50%,rgba(192,255,62,.07),transparent 70%),var(--bg)}
 canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
-#hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;pointer-events:none;transition:opacity .5s}
+#hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;pointer-events:none;transition:opacity .5s;background:radial-gradient(ellipse 62% 52% at 50% 46%,rgba(3,5,12,.7),rgba(3,5,12,.42) 52%,rgba(3,5,12,0) 78%)}
 #hero .logo{width:min(180px,40vw);border-radius:14px;box-shadow:0 0 60px rgba(138,92,255,.5)}
-#hero h1{font-size:clamp(34px,7vw,84px);font-weight:900;line-height:1.1;text-shadow:0 0 40px rgba(0,0,0,.8)}
+#hero h1{font-size:clamp(34px,7vw,84px);font-weight:900;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.85),0 0 40px rgba(0,0,0,.85)}
 #hero h1 em{font-style:normal;color:var(--acc)}
 #hero p{margin:0;color:var(--dim);font-size:clamp(15px,2vw,21px);max-width:34ch}
 #enter{pointer-events:auto;margin-top:18px;display:inline-flex;align-items:center;justify-content:center;text-align:center;width:min(560px,92%);font:900 clamp(15px,2.2vw,19px) Cairo,sans-serif;line-height:1.3;color:#05060a;background:var(--acc);border:0;border-radius:10px;padding:15px 34px;cursor:pointer;box-shadow:0 0 0 0 rgba(192,255,62,.6);animation:pulse 2s infinite}
@@ -105,9 +105,7 @@ footer{padding-block:28px;color:var(--dim);text-align:center;font-size:13px;back
   <div id="bar"></div>
   <div id="top" class="g"><span class="brand"><span class="stars" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></span><b>EMPEROR</b> SOFTWARE DEVELOPMENT</span><span id="cnt"></span></div>
   <div id="hero" class="g">
-   <img class="logo" id="logo" alt="Emperor">
-   <h1>نحن نصنع حلول <em>رقميه</em><br>تغير عالم كامل</h1>
-   <p>شركة Emperor Software Development — من 2018 بنبني تطبيقات ومواقع وبوتات وأنظمة.</p>
+   <h1>نحن نصنع حلول <em>رقمية</em> تغير حياتنا نحو عالم أفضل عبر البحث والتطوير المستمر</h1>
    <button id="enter">شاهد منتجات Emperor Software Development</button>
    <button id="install" type="button">أضف إلى الشاشة الرئيسية</button>
    <div id="installMsg" role="status" aria-live="polite"></div>
@@ -167,7 +165,6 @@ const P=[
  {n:"أتمتة n8n",t:"خدمة · أتمتة",d:"ربط الأنظمة وأتمتة الشغل بالذكاء الاصطناعي بدل الشغل اليدوي.",k:["n8n"],th:"n8n",kind:"poster",fr:"flat",ar:"1.78",gl:"rgba(62,224,255,.4)"},
  {n:"Bug Bot",t:"مشروع · Bug Bounty",d:"أتمتة صيد الثغرات على منصات زي HackerOne وBugcrowd.",k:["cyber"],th:"cyber",kind:"poster",fr:"flat",ar:"1",gl:"rgba(255,220,160,.3)"},
 ];
-$("#logo").src=IM.logo;
 // ---- cards grid ----
 const grid=$("#grid");
 function scrollToCard(i){const el=document.getElementById("card-"+i);if(!el)return;const y=el.getBoundingClientRect().top+scrollY-Math.max(70,innerHeight*.12);scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash")}
@@ -363,6 +360,7 @@ requestAnimationFrame(frame);
 
 
 <script>
+(function(){var sy=0;addEventListener("touchstart",function(e){if(e.touches.length===1)sy=e.touches[0].clientY},{passive:true});addEventListener("touchmove",function(e){if(e.touches.length===1&&scrollY<=0&&e.touches[0].clientY>sy+6&&e.cancelable)e.preventDefault()},{passive:false})})();
 (function(){
  var b=document.getElementById("install"),m=document.getElementById("installMsg");
  if(!b||!m)return;
