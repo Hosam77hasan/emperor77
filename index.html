@@ -216,12 +216,31 @@ cx2.strokeStyle="#e2b640";cx2.lineWidth=12;cx2.beginPath();cx2.moveTo(22,0);cx2.
 cx2.strokeStyle="rgba(226,182,64,.5)";cx2.lineWidth=3;for(let y=0;y<1024;y+=256){cx2.beginPath();cx2.moveTo(256,y+28);cx2.lineTo(340,y+128);cx2.lineTo(256,y+228);cx2.lineTo(172,y+128);cx2.closePath();cx2.stroke();cx2.beginPath();cx2.arc(256,y+128,16,0,7);cx2.stroke()}
 const carpetT=tex(cc,1,LL/4);
 const carpet=new T.Mesh(new T.PlaneGeometry(4.4,LL-2),new T.MeshStandardMaterial({map:carpetT,roughness:.92,metalness:0,bumpMap:carpetT,bumpScale:.6}));carpet.rotation.x=-Math.PI/2;carpet.position.set(0,.012,ZC);scene.add(carpet);
-// white ceiling with long strong light strips
-const ceil=new T.Mesh(new T.PlaneGeometry(HW*2,LL),new T.MeshBasicMaterial({color:0xd8d8d8}));ceil.rotation.x=Math.PI/2;ceil.position.set(0,WH,ZC);scene.add(ceil);
-const stripM=new T.MeshBasicMaterial({color:0xffffff});
-[[0,.9],[-3.9,.35],[3.9,.35],[-6.8,.25],[6.8,.25]].forEach(([x,w])=>{const st=new T.Mesh(new T.BoxGeometry(w,.06,LL),stripM);st.position.set(x,WH-.03,ZC);scene.add(st)});
-{const gc=mk(256,8),gx=gc.getContext("2d"),gg=gx.createLinearGradient(0,0,256,0);gg.addColorStop(0,"rgba(255,255,255,0)");gg.addColorStop(.5,"rgba(255,255,255,1)");gg.addColorStop(1,"rgba(255,255,255,0)");gx.fillStyle=gg;gx.fillRect(0,0,256,8);const gt=tex(gc,0,0,false);
- [[0,2.2,.22],[-3.9,1.2,.12],[3.9,1.2,.12]].forEach(([x,w,o])=>{const gl=new T.Mesh(new T.PlaneGeometry(w,LL),new T.MeshBasicMaterial({map:gt,transparent:true,opacity:o,blending:T.AdditiveBlending,depthWrite:false}));gl.rotation.x=Math.PI/2;gl.position.set(x,WH-.07,ZC);scene.add(gl)})}
+// ceiling: square tiles alternating white and gray
+const TSZ=.86,TXW=Math.round(HW*2/(2*TSZ)),TXH=Math.max(1,Math.round(LL/(2*TSZ)));
+{const tc=mk(256,256),q=tc.getContext("2d");
+ q.fillStyle="#f3f4f5";q.fillRect(0,0,128,128);q.fillRect(128,128,128,128);
+ q.fillStyle="#b7bcc4";q.fillRect(128,0,128,128);q.fillRect(0,128,128,128);
+ q.strokeStyle="#8f949b";q.lineWidth=5;
+ [0,128,256].forEach(v=>{q.beginPath();q.moveTo(v,0);q.lineTo(v,256);q.stroke();q.beginPath();q.moveTo(0,v);q.lineTo(256,v);q.stroke()});
+ for(let i=0;i<2500;i++){q.fillStyle=Math.random()<.5?"rgba(0,0,0,.022)":"rgba(255,255,255,.05)";q.fillRect(Math.random()*256,Math.random()*256,2,2)}
+ const tileT=tex(tc,TXW,TXH);
+ const ceil=new T.Mesh(new T.PlaneGeometry(HW*2,LL),new T.MeshBasicMaterial({map:tileT}));
+ ceil.rotation.x=Math.PI/2;ceil.position.set(0,WH,ZC);scene.add(ceil)}
+// recessed ceiling light units: two tiles long, centred over the carpet, evenly repeated
+{const LW=TSZ,LLEN=TSZ*2,STEP=TSZ*4,zs=[];
+ for(let z=ZMAX-3;z>ZMIN+3;z-=STEP)zs.push(z);
+ const m4=new T.Matrix4();
+ const lum=new T.InstancedMesh(new T.BoxGeometry(LW,.03,LLEN),new T.MeshBasicMaterial({color:0xffffff}),zs.length);
+ zs.forEach((z,i)=>{m4.makeTranslation(0,WH-.016,z);lum.setMatrixAt(i,m4)});
+ scene.add(lum);
+ const gp=mk(128,128),gx=gp.getContext("2d"),gr=gx.createRadialGradient(64,64,4,64,64,64);
+ gr.addColorStop(0,"rgba(255,250,235,.6)");gr.addColorStop(1,"rgba(255,250,235,0)");
+ gx.fillStyle=gr;gx.fillRect(0,0,128,128);
+ const gm=new T.MeshBasicMaterial({map:tex(gp,0,0,false),transparent:true,opacity:.45,blending:T.AdditiveBlending,depthWrite:false});
+ const glow=new T.InstancedMesh(new T.PlaneGeometry(LW*3.4,LLEN*2.6),gm,zs.length);
+ zs.forEach((z,i)=>{m4.makeRotationX(Math.PI/2);m4.setPosition(0,WH-.05,z);glow.setMatrixAt(i,m4)});
+ scene.add(glow)}
 // stanchions: gold posts + red chains
 {const posts=[];for(let z=ZMAX-6;z>ZMIN+3;z-=3.4)posts.push(z);
  const pr=[[0,0],[.24,0],[.25,.012],[.24,.03],[.19,.045],[.12,.06],[.06,.095],[.042,.14],[.04,.22],[.052,.245],[.052,.27],[.04,.3],[.04,.56],[.058,.585],[.058,.62],[.04,.65],[.038,.86],[.07,.9],[.07,.945],[.045,.975],[0,.985]].map(a=>new T.Vector2(a[0],a[1]));
