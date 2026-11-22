@@ -1,5 +1,5 @@
 /* Emperor Software Development — installability + offline shell */
-var CACHE = "emperor-v2";
+var CACHE = "emperor-v3";
 var CORE = ["./", "./index.html", "./manifest.json", "./icons/favicon-32.png", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-192-maskable.png", "./icons/icon-512-maskable.png", "./icons/apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
